@@ -6,10 +6,10 @@ function Hero() {
         <div className="">
           <h1 className="font-[Poppins] font-semibold text-[6.4rem] leading-[141%] text-white mb-[1.9rem] max-lg:text-center max-lg:text-[2.8rem] max-lg:leading-[3.8rem] max-lg:mb-[2.3rem]">
             <span className="max-lg:hidden">
-              Connect your <br />
-              Device and get
+              Connect and Track <br />
+              Real-time Health Insights
               <br />
-              Real-Time Health Alerts
+              for your Animals
             </span>
             <span className="hidden max-lg:block">
               Connect Your Device
@@ -23,7 +23,7 @@ function Hero() {
           </p>
           <Link
             to="/signup"
-            className="block text-center w-[35.1rem] h-[7.1rem] leading-[7.1rem] rounded-[3rem] font-[Inter] font-[500] text-[2.4rem] text-[#FFF9F9] text-shadow-[3px_3px_4px_rgba(0,0,0,0.37)] bg-[#99CC67] max-lg:mx-auto max-lg:w-[16.9rem] max-lg:h-[4rem] max-lg:bg-[#1D4719] max-lg:leading-[4rem] max-lg:text-[1.6rem]"
+            className="block text-center w-[24.1rem] h-[7.1rem] leading-[7.1rem] rounded-[1rem] font-[Inter] font-[500] text-[2.4rem] text-[#FFF9F9] text-shadow-[3px_3px_4px_rgba(0,0,0,0.37)] bg-[#1D4719] max-lg:mx-auto max-lg:w-[16.9rem] max-lg:h-[4rem] max-lg:bg-[#1D4719] max-lg:leading-[4rem] max-lg:text-[1.6rem]"
           >
             Get Started
           </Link>

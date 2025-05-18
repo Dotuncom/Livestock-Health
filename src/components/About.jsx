@@ -1,7 +1,7 @@
 //src/components/About.jsx
 import React from "react";
 import AboutContainer from "../utils/AboutContainer";
-import AboutImg from "../assets/AboutImage.svg";
+import AboutImg from "../assets/AboutImage.png";
 
 function About() {
   const xml = (
@@ -17,8 +17,8 @@ function About() {
           <span className='font-bold'>
             At Kiwo Cares, we’re transforming livestock farming with the power
             of smart technology
-          </span>
-          . Our mission is simple: to help farmers protect their animals, reduce
+          </span><br/>
+          Our mission is simple: to help farmers protect their animals, reduce
           losses, and make faster, data-driven decisions.
           <br /> We’ve built an intelligent health monitoring system that
           combines a user-friendly web app with a powerful device that tracks

@@ -9,6 +9,8 @@ import Homepage from "./Pages/Homepage";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import Otp from "./Pages/Otp";
+import Dashboard from "./Pages/Farmer/Dashboard";
+import DashboardLayout from "./Layout/DashboardLayout";
 // import Login from "./Pages.jsx/Login";
 
 const router = createBrowserRouter(
@@ -20,6 +22,9 @@ const router = createBrowserRouter(
       <Route path='/signup' element={<SignUp />} />
       <Route path='/login' element={<Login />} />
       <Route path='/auth' element={<Otp />} />
+    <Route element={<DashboardLayout/>}>
+      <Route path='/dashboard' element={<Dashboard/>}/>
+    </Route>
     </Route>
   )
 );

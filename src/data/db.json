@@ -1,0 +1,61 @@
+{
+  "stats": [
+    {
+      "id": 1,
+      "title": "Registered Animal",
+      "value": 32
+    },
+    {
+      "id": 2,
+      "title": "Animals with Abnormal Vitals",
+      "value": 6
+    },
+    {
+      "id": 3,
+      "title": "Needs Attention",
+      "value": 2
+    },
+    {
+      "id": 4,
+      "title": "Upcoming Reminders",
+      "value": 6
+    }
+  ],
+  "vitals": [
+    {
+      "id": 1,
+      "animal": "Cow A",
+      "temperature": 39.5,
+      "heartRate": 75,
+      "lastChecked": "2025-05-15T09:00:00Z"
+    },
+    {
+      "id": 2,
+      "animal": "Cow B",
+      "temperature": 38.8,
+      "heartRate": 80,
+      "lastChecked": "2025-05-15T08:45:00Z"
+    },
+    {
+      "id": 3,
+      "animal": "Cow C",
+      "temperature": 41.2,
+      "heartRate": 95,
+      "lastChecked": "2025-05-15T08:30:00Z"
+    }
+  ],
+  "alerts": [
+    {
+      "id": 1,
+      "animal": "Cow A",
+      "status": "High Temperature",
+      "timestamp": "2 mins ago"
+    },
+    {
+      "id": 2,
+      "animal": "Cow C",
+      "status": "Abnormal Heart Rate",
+      "timestamp": "10 mins ago"
+    }
+  ]
+}

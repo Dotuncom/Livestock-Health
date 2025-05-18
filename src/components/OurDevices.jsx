@@ -4,7 +4,7 @@ import lgdevices from "../assets/lgdevices.svg";
 function OurDevices() {
   const xml = (
     <FlexContainer>
-      <div className='w-[calc(100%-39.30555555555556%)] pl-[10.5rem] pt-[4.3rem] max-lg:px-0 max-lg:pt-[0.5rem] max-lg:w-full'>
+      <div className='w-[calc(100%-39.30555555555556%)] bg-white pl-[10.5rem] pt-[4.3rem] max-lg:px-0 max-lg:pt-[0.5rem] max-lg:w-full'>
         <h1 className='font-[Poppins] font-semibold text-[4rem] leading-[9rem] mb-[4.8rem] max-lg:leading-[100%] max-lg:text-[2.4rem] max-lg:text-[#0F0E0E] max-lg:text-center max-lg:mt-[1.5rem] max-lg:mb-[3.3rem]'>
           Introduction to Our Device
         </h1>
@@ -39,10 +39,10 @@ function OurDevices() {
         <img
           src={ourDevice}
           alt='OurDevices'
-          className='w-full h-[58.6rem] block object-fill max-lg:hidden'
+          className='w-[426px] h-[412px] block object-fill max-lg:hidden'
         />
         <img
-          src={lgdevices}
+          src={ourDevice}
           alt='OurDevices'
           className='hidden max-lg:block w-full h-[58.6rem] max-lg:h-[21.8rem] object-cover object-top'
         />

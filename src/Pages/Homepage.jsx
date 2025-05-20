@@ -3,7 +3,7 @@ import FAQ from "../components/FAQ";
 import Hero from "../components/Hero";
 import HIW from "../components/HIW";
 import OurDevices from "../components/OurDevices";
-import Preview from "../components/Preview";
+// import Preview from "../components/Preview";
 import ClientReview from "../components/ClientReview";
 
 function Homepage() {
@@ -13,9 +13,10 @@ function Homepage() {
       <About />
       <HIW />
       <OurDevices />
-      <Preview />
-      <FAQ />
+      {/* <Preview /> */}
       <ClientReview />
+
+      <FAQ />
     </>
   );
   return xml;

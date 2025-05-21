@@ -1,26 +1,34 @@
-// components/Header.jsx
 import React from 'react';
-import { Icon } from '@iconify/react';
-import db from '../data/db.json'
+import search from '../assets/search.png';
+import notification from '../assets/notification.png';
 
-function Header() {
+function Header({title}) {
   return (
-    <div className="hidden md:flex justify-end space-x-[3rem] items-center mb-4">
-      {/* Search Field */}
-      <div className="relative w-full max-w-md">
+    <div className="hidden md:flex space-x-[63px] justify-between h-[131px]  items-center pt-[20px] pb-[20px]  pr-[139px] mb-[39px]">
+      <h1 className='text-4xl poppins'>{title}</h1>
+      <div className='flex items-center gap-[2rem]'>
+     {/* Search Bar */}
+     <div className="relative flex items-center w-[462px] h-[48px] rounded-[50px] pl-[1rem] border border-[#333] bg-white text-2xl shadow-sm">
+        <img 
+          src={search} 
+          alt="Search Icon" 
+          className="w-[20px] h-[20px] mr-3"
+        />
         <input
           type="text"
-          placeholder="Search animals, reports..."
-          className="w-full py-2 pl-10 pr-4 rounded-[50px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"
+          placeholder="search..."
+          className="w-full h-full bg-transparent rounded-[50px]  outline-none"
         />
-        <Icon icon="material-symbols:search" className="absolute left-3 top-2.5 text-gray-500" />
       </div>
 
-      {/* Right section */}
-      <div className="flex items-center space-x-4">
-        <Icon icon="mdi:bell-outline" className="w-6 h-6 text-gray-600 cursor-pointer  bg-white rounded-[50px]" />
-        
+      {/* Notification Icon */}
+      <img
+        src={notification}
+        alt="Notification Icon"
+        className="w-[43px] h-[43px] border border-[#000000] rounded-[50px] bg-white p-3 " 
+      />
       </div>
+     
     </div>
   );
 }

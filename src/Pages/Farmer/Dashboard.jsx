@@ -1,42 +1,43 @@
-import db from '../../data/db.json';
-import StatCard from '../../cards/StatsCard';
-import AlertCard from '../../components/AlertsCard';
-import LiveAnimalTracker from '../../components/LiveAnimalTracker';
-import VitalsTable from '../../components/VitalTables';
-import VitalTables from '../../components/VitalTables'
-
-const iconMap = {
-  "Registered Animal": "healthicons:animal-cow",
-  "Animals with Abnormal Vitals": "mdi:alert-circle-outline",
-  "Needs Attention": "material-symbols:warning-outline",
-  "Upcoming Reminders": "mdi:calendar-clock"
-};
+import StatCard from "../../cards/StatsCard";
+import RegAni from "../../assets/register.png";
+import Abnormal from "../../assets/abnormalvital.png";
+import attention from '../../assets/attention.png'
+import speaker from '../../assets/speaker.png'
+import HealthStatusPieChart from "../../components/HealthStatusPieChart";
+import DeviceStatus from  '../../components/DeviceStatus'
+import LiveAnimalTracker from "../../components/LiveAnimalTracker";
 
 export default function Dashboard() {
   return (
-    <div className="p-4 space-y-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {db.stats.map((stat) => (
-          <StatCard
-            key={stat.id}
-            icon={iconMap[stat.title] || "mdi:chart-box"}
-            title={stat.title}
-            value={stat.value}
-          />
-        ))}
+    <div className=" p-[2rem] bg-white">
+      <div className="grid  grid-cols-[repeat(auto-fit,minmax(256px,1fr))]  md:grid-cols-2  lg:grid-cols-4  gap-[30px]">
+        <StatCard icon={RegAni} value={"32"} title={"Register Animal"} />
+        <StatCard
+          icon={Abnormal}
+          value={"6"}
+          title={"Animal with Abnormal Vitals"}
+        />
+        <StatCard
+          icon={attention}
+          value={"6"}
+          title={"Animal 002 needs Attention"}
+        />
+        <StatCard icon={speaker} value={"6"} title={"Upcoming Reminder"} />
       </div>
-
-      <div className='grid grid-cols-1  md:grid-cols-3'>
-      <div className="col-span-2 space-y-[5rem]">
-          <LiveAnimalTracker />
-          <VitalsTable />
+      <div className="flex flex-col md:mt-[58px] p-4">
+        <div className="flex justify-between">
+          <LiveAnimalTracker/>
+          <div>
+            <h1>Recent Statics</h1>
+          <HealthStatusPieChart/>
+          </div>
         </div>
         <div>
-          <AlertCard alerts={db.alerts}/>
-      </div>
-      </div>
-
+          <DeviceStatus/>
+        </div>
+        
+       
     </div>
-  
+    </div>
   );
 }

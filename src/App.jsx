@@ -11,7 +11,10 @@ import Login from "./Pages/Login";
 import Otp from "./Pages/Otp";
 import Dashboard from "./Pages/Farmer/Dashboard";
 import DashboardLayout from "./Layout/DashboardLayout";
-// import Login from "./Pages.jsx/Login";
+import Animals from "./Pages/Farmer/Animals";
+import Report from "./Pages/Farmer/Report";
+import Devices from "./Pages/Farmer/Devices";
+import Alert from "./Pages/Farmer/Alert";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +27,11 @@ const router = createBrowserRouter(
       <Route path='/auth' element={<Otp />} />
     <Route element={<DashboardLayout/>}>
       <Route path='/dashboard' element={<Dashboard/>}/>
+      <Route path='/animal' element={<Animals/>}/>
+      <Route path="/reports" element={<Report/>}/>
+      <Route path='/devices' element ={<Devices/>}/>
+      <Route path="/alert" element={<Alert/>}/>
+
     </Route>
     </Route>
   )

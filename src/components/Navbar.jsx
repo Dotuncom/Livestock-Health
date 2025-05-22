@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import "../menu.css";
+
 function Navbar() {
   const xml = (
     <header className='h-[10rem] bg-white flex items-center max-lg:h-[7rem] max-lg:sticky top-0 z-10'>
       <nav className='flex justify-between items-center w-full px-[clamp(1rem,3.263888888888889vw,4.7rem)_clamp(1rem,3.263888888888889vw,4.7rem)]'>
-        <Link to='/'>
+        
           <div className='w-[8rem] h-[8rem] max-lg:w-[6.7rem] max-lg:h-[4rem]'>
             <img
               src={logo}
@@ -13,11 +14,11 @@ function Navbar() {
               className='block w-full h-full object-center object-fill'
             />
           </div>
-        </Link>
+
         <ul className='flex gap-[clamp(3rem,5.208333333333333vw,7.5rem)] max-lg:hidden'>
           <li>
             <a
-              href='#'
+              href='/'
               className="font-[Inter]  text-[2rem] leading-[2.4rem] after:absolute after:content-[''] after:w-[0%] after:h-[0.3rem] after:rounded-[1rem] after:bottom-[-1rem] after:bg-black after:transition-[all_0.4s_linear] hover:after:w-[103%] relative flex justify-center items-center"
             >
               Home
@@ -25,7 +26,7 @@ function Navbar() {
           </li>
           <li>
             <a
-              href='#'
+              href='#about'
               className="font-[Inter]  text-[2rem] leading-[2.4rem] after:absolute after:content-[''] after:w-[0%] after:h-[0.3rem] after:rounded-[1rem] after:bottom-[-1rem] after:bg-black after:transition-[all_0.4s_linear] hover:after:w-[103%] relative flex justify-center items-center"
             >
               About
@@ -33,7 +34,7 @@ function Navbar() {
           </li>
           <li>
             <a
-              href='#'
+              href='#service'
               className="font-[Inter]  text-[2rem] leading-[2.4rem] after:absolute after:content-[''] after:w-[0%] after:h-[0.3rem] after:rounded-[1rem] after:bottom-[-1rem] after:bg-black after:transition-[all_0.4s_linear] hover:after:w-[103%] relative flex justify-center items-center"
             >
               Services
@@ -41,7 +42,7 @@ function Navbar() {
           </li>
           <li>
             <a
-              href='#'
+              href='#faq'
               className="font-[Inter] group relative text-[2rem] leading-[2.4rem] after:absolute after:content-[''] after:w-[0%] after:h-[0.3rem] after:rounded-[1rem] after:bottom-[-1rem] after:bg-black after:transition-[all_0.4s_linear] hover:after:w-[103%] flex justify-center items-center"
             >
               FAQ
@@ -49,7 +50,7 @@ function Navbar() {
           </li>
           <li>
             <a
-              href='#'
+              href='#support'
               className="font-[Inter]  text-[2rem] leading-[2.4rem] after:absolute after:content-[''] after:w-[0%] after:h-[0.3rem] after:rounded-[1rem] after:bottom-[-1rem] after:bg-black after:transition-[all_0.4s_linear] hover:after:w-[103%] relative flex justify-center items-center"
             >
               Support
@@ -84,21 +85,21 @@ function Navbar() {
                 </a>
               </li>
               <li className='mb-[2rem]'>
-                <a href='#' className='text-[1.6rem] mb-[1rem] font-[Poppins]'>
+                <a href='#about' className='text-[1.6rem] mb-[1rem] font-[Poppins]'>
                   <label htmlFor='toggleMenu' className='cursor-pointer'>
                     About
                   </label>
                 </a>
               </li>
               <li className='mb-[2rem]'>
-                <a href='#' className='text-[1.6rem] mb-[1rem] font-[Poppins]'>
+                <a href='#service' className='text-[1.6rem] mb-[1rem] font-[Poppins]'>
                   <label htmlFor='toggleMenu' className='cursor-pointer'>
                     Services
                   </label>
                 </a>
               </li>
               <li className='mb-[2rem]'>
-                <a href='#' className='text-[1.6rem] mb-[1rem] font-[Poppins]'>
+                <a href='#faq' className='text-[1.6rem] mb-[1rem] font-[Poppins]'>
                   <label htmlFor='toggleMenu' className='cursor-pointer'>
                     FAQ
                   </label>

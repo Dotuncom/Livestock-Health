@@ -2,22 +2,24 @@
 import React from "react";
 import AboutContainer from "../utils/AboutContainer";
 import AboutImg from "../assets/AboutImage.png";
+// w-[40.625%] flex-none relative before:content-[''] before:absolute before:w-full before:h-full before:bg-[rgba(29,71,25,0.54)] bg-[#1D4719] flex items-center max-lg:w-full max-lg:before:bg-[rgba(0,0,0,0)]
 
 function About() {
   const xml = (
     <AboutContainer>
-      <div className="w-[40.625%] flex-none relative before:content-[''] before:absolute before:w-full before:h-full before:bg-[rgba(29,71,25,0.54)] bg-[#1D4719] flex items-center max-lg:w-full max-lg:before:bg-[rgba(0,0,0,0)]">
+      <div className="w-[40.625%] flex  relative before:content-[''] before:absolute before:w-full before:h-full   items-center max-lg:w-full max-lg:before:bg-[rgba(0,0,0,0)]">
         <img
           src={AboutImg}
           className='block w-full max-h-[50rem] object-cover max-lg:w-full max-lg:max-h-[28rem]'
         />
       </div>
       <div className='w-[calc(100%-40.625%)] min-h-[50rem] flex-[1] bg-[#1D4719] px-[4.8rem_2rem] py-[4.9rem_1.7rem] overflow-hidden max-lg:w-full max-lg:px-[0] max-lg:text-center max-lg:min-h-[unset] max-lg:pt-[3.5rem]'>
-        <p className='text-[2rem] leading-[3.1rem] font-[Inter] text-[#FFF8F8] w-[72.6rem] max-w-full pr-[1rem] max-lg:hidden '>
-          <span className='font-bold'>
+        <p className='text-[20px] leading-[3.1rem] font-[Inter] text-[#FFF8F8] w-[72.6rem] max-w-full pr-[1rem] max-lg:hidden text  '>
+          <span className='font-bold ' id='span'>
             At Kiwo Cares, we’re transforming livestock farming with the power
             of smart technology
           </span><br/>
+        
           Our mission is simple: to help farmers protect their animals, reduce
           losses, and make faster, data-driven decisions.
           <br /> We’ve built an intelligent health monitoring system that

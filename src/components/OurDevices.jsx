@@ -1,55 +1,32 @@
-import FlexContainer from "../utils/FlexContainer";
-import ourDevice from "../assets/ourdeviceimage.png";
-import lgdevices from "../assets/lgdevices.svg";
-function OurDevices() {
-  const xml = (
-    <FlexContainer>
-      <div className='w-[calc(100%-39.30555555555556%)] bg-white pl-[10.5rem] pt-[4.3rem] max-lg:px-0 max-lg:pt-[0.5rem] max-lg:w-full'>
-        <h1 className='font-[Poppins] font-semibold text-[4rem] leading-[9rem] mb-[4.8rem] max-lg:leading-[100%] max-lg:text-[2.4rem] max-lg:text-[#0F0E0E] max-lg:text-center max-lg:mt-[1.5rem] max-lg:mb-[3.3rem]'>
-          Introduction to Our Device
-        </h1>
-        <p className='font-[Inter] w-[75rem] max-w-[98%] leading-[3rem] text-[2rem] max-lg:hidden'>
-          QiwoFarms is a durable device designed to monitor your
-          <br /> livestock’s vital health signs — specifically body temperature,
-          motion, heart rate, and location — in real time.
-          <br /> By closely tracking these critical indicators, QiwoFarm helps
-          farmers detect early signs of illness symptoms and stress long before
-          visible symptoms appear.
-          <br /> Our device operates continuously and Real-time, storing data
-          securely even without internet, and delivers instant alerts through
-          the Kiwo app when health readings fall outside safe ranges.
-          <br /> With QiwoFarms, farmers can act faster, treat diseases earlier,
-          and protect their livestock’s health with confidence, no matter where
-          they are.
-        </p>
-        <p className='hidden max-lg:block font-[Inter] not-italic font-normal text-[1.3rem] leading-[2rem] text-center text-[rgba(0,0,0,0.85)] mx-auto w-[75.2%] pb-[5rem]'>
-          QiwoTrack is a lightweight, durable device designed to monitor your
-          livestock’s vital health signs specifically body temperature and heart
-          rate in real time. By closely tracking these two critical indicators,
-          QiwoTrack helps farmers detect early signs of illness, stress, or
-          infection long before visible symptoms appear. Our device operates
-          continuously, storing data securely even without internet, and
-          delivers instant alerts through the Qiwo app when health readings fall
-          outside safe ranges. With QiwoTrack, farmers can act faster, treat
-          diseasesearlier, and protect their livestock’s health with confidence,
-          no matter where they are.
+import React from "react";
+import deviceback  from '../assets/deviceback.png'
+import ourdevice from '../assets/ourdeviceimage.png'
+
+const OurDevices = () => {
+  return (
+    <div className="flex flex-col md:flex-row md:h-[600px]">
+      <div className="text-base space-y-3 px-4 md:w-1/2 md:p-[100px] md:space-y-[4rem]">
+        <h1 className="font-bold md:text-5xl">Introduction to Our Device</h1>
+        <p className="md:text-[20px] md:leading-[30px] ">
+          QiwoFarms is a durable device designed to monitor your livestock’s
+          vital health signs — specifically body temperature, motion, heart
+          rate, and location in real time. By closely tracking these critical
+          indicators, QiwoFarms helps farmers detect early signs of illness
+          symptoms and stress long before visible symptoms appear. Our device
+          operates continuously and Real-time, storing data securely even
+          without internet, and delivers instant alerts through the Qiwo app
+          when health readings fall outside safe ranges. With QiwoFarms, farmers
+          can act faster, treat diseases earlier, and protect their livestock’s
+          health with confidence, no matter where they are.
         </p>
       </div>
-      <div className='w-[39.30555555555556%] flex items-center max-lg:w-full'>
-        <img
-          src={ourDevice}
-          alt='OurDevices'
-          className='w-[426px] h-[412px] block object-fill max-lg:hidden'
-        />
-        <img
-          src={ourDevice}
-          alt='OurDevices'
-          className='hidden max-lg:block w-full h-[58.6rem] max-lg:h-[21.8rem] object-cover object-top'
-        />
+      <div className="p-[20px] md:w-1/2 h-[375px] bg-center bg-cover md:flex bg-blur items-center justify-center md:h-full" style={{backgroundImage:`url(${deviceback})`}}>
+        <img 
+        className=" bg-center md:min-w[412px]  md:h-[400px] md:w-[400px] h-[300px] w-[300px]"
+        src={ourdevice} alt="" />
       </div>
-    </FlexContainer>
+    </div>
   );
-  return xml;
-}
+};
 
 export default OurDevices;

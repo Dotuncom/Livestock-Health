@@ -11,3 +11,35 @@ text-align: center;
 
 color: #0F0E0E;
 
+Account Setup
+
+    Full Name
+
+    Email Address
+
+    Phone Number
+
+    Password + Confirm Password
+
+    Profile Picture (optional upload)
+
+Farm Setup
+
+    Farm Name
+
+    Farm Type (Dairy, Poultry, Mixed, etc.)
+
+    Location (City, State, or GPS)
+
+    Number of Animals
+
+    Animal Type (Cattle, Goat, Poultry, etc.)
+
+Optional Section (can be skipped or added later)
+
+    Gender
+
+    Date of Birth
+
+    Profile Preferences
+

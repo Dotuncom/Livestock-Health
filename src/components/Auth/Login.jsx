@@ -1,6 +1,6 @@
-//src/Pages/Login.jsx
-import LoginForm from "../components/LoginForm";
-import SignUpWrapper from "../utils/SignupWrapper";
+//src/components/Auth/Login.jsx
+import LoginForm from "../../components/LoginForm";
+import SignUpWrapper from "../../utils/SignupWrapper";
 function Login() {
   const xml = (
     <SignUpWrapper>

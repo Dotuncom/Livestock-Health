@@ -1,4 +1,4 @@
-//src/components/ViewMoreButton.jsx
+//src/Pages/ViewMoreButton.jsx
 export default function ViewMoreButton() {
     return (
       <div className="flex justify-end mt-6">

@@ -1,5 +1,3 @@
-//src/components/HeartTrendChart.jsx
-// components/HeartTrendChart.jsx
 import React from "react";
 import {
   Chart as ChartJS,
@@ -46,7 +44,6 @@ const HeartTrendChart = () => {
     plugins: {
       title: {
         display: true,
-        // text: "Heart Trend for 005",
         font: {
           size: 16
         }
@@ -71,7 +68,7 @@ const HeartTrendChart = () => {
   };
 
   return (
-    <div className="w-[543px] h-[300px]">
+    <div className="w-full h-[250px] md:w-[543px] md:h-[300px]">
       <Line data={data} options={options} />
     </div>
   );

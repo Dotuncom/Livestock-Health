@@ -22,7 +22,7 @@ function Hero() {
             health insights
           </p>
           <Link
-            to="/signup"
+            to="/role-selection"
             className="block text-center w-[24.1rem] h-[7.1rem] leading-[7.1rem] rounded-[1rem] font-[Inter] font-[500] text-[2.4rem] text-[#FFF9F9] text-shadow-[3px_3px_4px_rgba(0,0,0,0.37)] bg-[#1D4719] max-lg:mx-auto max-lg:w-[16.9rem] max-lg:h-[4rem] max-lg:bg-[#1D4719] max-lg:leading-[4rem] max-lg:text-[1.6rem]"
           >
             Get Started

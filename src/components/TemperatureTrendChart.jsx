@@ -1,5 +1,3 @@
-//src/components/TemperatureTrendChart.jsx
-// components/TemperatureTrendChart.jsx
 import React from "react";
 import {
   Chart as ChartJS,
@@ -71,7 +69,7 @@ const TemperatureTrendChart = () => {
   };
 
   return (
-    <div className="w-[497px] h-[300px]">
+    <div className="w-full h-[250px] md:w-[497px] md:h-[300px]">
       <Line data={data} options={options} />
     </div>
   );

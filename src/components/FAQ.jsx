@@ -1,4 +1,4 @@
-import FAQTiles from "../modals/FAQTiles";
+import FAQTiles from "../modals/FAQTiles"
 
 function FAQ() {
   const xml = (

@@ -1,3 +1,4 @@
+//src/Layout/VetDashboardLayout.jsx
 // import { useState } from "react";
 
 
@@ -114,7 +115,7 @@ import location from '../assets/location.png'
 import profile from "../assets/profile.png";
 import { useState } from "react";
 
-function DashboardLayout() {
+function VetDashboardLayout() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
@@ -218,4 +219,4 @@ function DashboardLayout() {
   );
 }
 
-export default DashboardLayout;
+export default VetDashboardLayout;

@@ -1,5 +1,6 @@
-import OTPInput from "../modals/OTPInput";
-import AuthWrapper from "../utils/AuthWrapper";
+//src/components/Auth/../../modals/OTPInput
+import OTPInput from "../../modals/OTPInput"
+import AuthWrapper from '../../utils/AuthWrapper'
 function SignUp() {
   const handleOTPSubmit = (code) => {
     console.log("Entered OTP:", code);

@@ -1,11 +1,10 @@
-//src/components/SignUpForm.jsx
-import CustomInputField from "../modals/CustomInputField";
-import envelop from "../assets/envelop.svg";
-import user from "../assets/user.svg";
-import password from "../assets/password.svg";
+//src/components/Auth/SignUpForm.jsx
+import CustomInputField from "../../modals/CustomInputField";
+import envelop from "../../assets/envelop.svg";
+import user from "../../assets/user.svg";
+import password from "../../assets/password.svg";
 import { Link } from "react-router-dom";
-// import { useState } from "react";
-import FormButton from "../utils/FormButton";
+import FormButton from "../../utils/FormButton";
 
 function SignUpForm() {
   function handleSubmit() {

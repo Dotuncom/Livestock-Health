@@ -5,7 +5,7 @@ import neckstrap from '../assets/neckstrap.png'
 import status from '../assets/status.png'
 const DeviceStatus = () => {
   return (
-    <div className=" flex flex-col md:w-[340px] md:h-[240px] justify-center p-9 bg-[#EFEEEE]">
+    <div className=" flex flex-col   justify-center space-y-5 p-9 bg-[#EFEEEE]">
       
       <div className="flex items-center space-x-3">
         <img 

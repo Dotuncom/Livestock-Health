@@ -1,56 +1,35 @@
-// import React from "react";
-// import TemperatureTrendChart from "../../components/TemperatureTrendChart";
-// import HealthStatusPieChart from "../../components/HealthStatusPieChart";
-// import HeartTrendChart from "../../components/HeartTrendChart";
-// import LivestockStatusTable from "../../components/LiveStockStatusTable";
-
-// const Animals = () => {
-//   return (
-//     <div className="md:w-[1194px] bg-white p-5">
-//       <div className="  flex flex-col md:p-30 md:w-full md:gap-3 md:justify-center">
-//         <div className="w-full h-[300px] gap-[6rem] flex  md:flex-row items-center">
-//           <TemperatureTrendChart/>
-//           <HealthStatusPieChart/>
-//         </div>
-
-//         <div className="flex w-[497px] h-[300px] gap-[2rem]  items-center">
-//           <HeartTrendChart/>
-//         </div>
-//       </div>
-//       <LivestockStatusTable/>
-
-//     </div>
-//   );
-// };
-
-// export default Animals;
 import React from "react";
-import TemperatureTrendChart from "../../components/TemperatureTrendChart";
-import HealthStatusPieChart from "../../components/HealthStatusPieChart";
-import HeartTrendChart from "../../components/HeartTrendChart";
-import LivestockStatusTable from "../../components/LiveStockStatusTable";
+import FilterBar from "../../components/FilterBar"
+import SummaryInfo from "../../components/SummaryInfo"
+import AnimalCard from "../../components/AnimalCard"
+import ViewMoreButton from "../../components/ViewMoreButton";
 
 const Animals = () => {
+    const data = [
+      { id: "001", breed: "Sokoto Gudali", status: "Healthy", date: "12/3/25" },
+      { id: "002", breed: "Red Bororo", status: "Sick", date: "12/3/25" },
+      { id: "003", breed: "Red Bororo", status: "Sick", date: "12/3/25" },
+      { id: "004", breed: "Sokoto Gudali", status: "Healthy", date: "12/3/25" },
+      { id: "005", breed: "White Fulani", status: "Healthy", date: "12/3/25" },
+      { id: "006", breed: "Yankasa", status: "Healthy", date: "12/5/25", species: "Goat" },
+      { id: "007", breed: "Sokoto Gudali", status: "Healthy", date: "12/3/25" },
+      { id: "008", breed: "Sokoto Gudali", status: "Sick", date: "12/5/25" },
+      { id: "009", breed: "White Fulani", status: "Healthy", date: "12/3/25" },
+    ];
   return (
-    <div className="w-full md:w-[1194px] bg-white p-5">
-      <div className="flex flex-col md:p-30 md:w-full md:gap-3 md:justify-center">
-        <div className="w-full flex flex-col md:flex-row items-center gap-6 md:gap-[6rem] h-auto md:h-[300px]">
-          <div className="w-full">
-            <TemperatureTrendChart />
-          </div>
-          <div className="w-full">
-            <HealthStatusPieChart />
-          </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row items-center gap-4 md:w-[497px] md:h-[300px] h-auto w-full mt-6">
-          <HeartTrendChart />
-        </div>
+    <div className=" bg-white/60 shadow-[0px_4px_17px_11px_rgba(0,0,0,0.03)] p-[100px]  drop-shadow-sm">
+      <FilterBar/>
+      <div>
+        <SummaryInfo/>
       </div>
-      <div className="mt-6">
-        <LivestockStatusTable />
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-[30px]">
+      {data.map((animal) => (
+        <AnimalCard key={animal.id} {...animal} />
+      ))}
     </div>
+    <ViewMoreButton/>
+    </div>
+    // 
   );
 };
 

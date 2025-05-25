@@ -15,6 +15,8 @@ import Animals from "./Pages/Farmer/Animals";
 import Report from "./Pages/Farmer/Report";
 import Devices from "./Pages/Farmer/Devices";
 import Alert from "./Pages/Farmer/Alert";
+import Profile from "./Pages/Farmer/Profile";
+import Location from "./Pages/Farmer/Location";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,8 +32,9 @@ const router = createBrowserRouter(
       <Route path='/animal' element={<Animals/>}/>
       <Route path="/reports" element={<Report/>}/>
       <Route path='/devices' element ={<Devices/>}/>
-      <Route path="/alert" element={<Alert/>}/>
-
+      <Route path="/alerts" element={<Alert/>}/>
+      <Route path='/location' element={<Location/>}/>
+      <Route path='/profile' element={<Profile/>}/>
     </Route>
     </Route>
   )

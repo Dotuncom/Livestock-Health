@@ -8,6 +8,7 @@ import animal from "../assets/animal.png";
 import analytics from "../assets/report.png";
 import device from "../assets/device.png";
 import alert from "../assets/alert.png";
+import location from '../assets/location.png'
 import profile from "../assets/profile.png";
 import { useState } from "react";
 
@@ -28,6 +29,9 @@ const getTitle = (pathname)=>{
   if(pathname.includes('/devices')) return 'Devices'
   if(pathname.includes('/report')) return 'Reports'
   if(pathname.includes('/alert')) return 'Alert'
+  if(pathname.includes('/location')) return 'Animal Location'
+  if(pathname.includes('/profile')) return 'Animal Profile'
+
   return 'Dashboard'
 }
 const currentTitle = getTitle(location.pathname)
@@ -37,7 +41,7 @@ const currentTitle = getTitle(location.pathname)
     <div className="flex h-screen">
       {/* Sidebar */}
       <aside
-        className={`bg-[#1D4719] text-white md:w-68 text-[18px]
+        className={`bg-[#1D4719] text-white md:max-w-68 flex-shrink-0 text-[18px]
         fixed md:relative z-50 transform transition-transform duration-200
         ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
@@ -73,6 +77,11 @@ const currentTitle = getTitle(location.pathname)
             <span>Alert</span>
           </NavLink>
 
+          <NavLink to="/location" className={navClasses}>
+            <img className="object-cover h-[24px] w-[24px]" src={location} alt="alert icon" />
+            <span> Location</span>
+          </NavLink>
+
           <NavLink to="/profile" className={navClasses}>
             <img className="object-cover h-[24px] w-[24px]" src={profile} alt="profile icon" />
             <span>Profile</span>
@@ -93,7 +102,7 @@ const currentTitle = getTitle(location.pathname)
         </div>
 
         {/* Page content */}
-        <main className="p-4 overflow-auto bg-[#EFEEEE]">
+        <main className="p-4 overflow-auto bg-[#F5F5F5]">
           <Header title={currentTitle}/>
           <Outlet />
         </main>

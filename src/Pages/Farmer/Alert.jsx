@@ -1,4 +1,3 @@
-//src/Pages/Farmer/Alert.jsx
 import React from 'react'
 
 const Alert = () => {

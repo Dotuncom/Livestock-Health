@@ -6,7 +6,6 @@ import {
     Legend,
   } from 'chart.js';
   import { Pie } from 'react-chartjs-2';
-  import React from 'react';
   
   // Register components
   ChartJS.register(ArcElement, Tooltip, Legend);
@@ -34,7 +33,7 @@ import {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          position: 'bottom',
+          position: 'right',
           labels: {
             color: '#000',
             font: {
@@ -46,7 +45,7 @@ import {
     };
   
     return (
-      <div className="w-[543px] h-[275px] bg-white ">
+      <div className="w-[270px] h-[275px] bg-white ">
         <Pie data={data} options={options} />
       </div>
     );

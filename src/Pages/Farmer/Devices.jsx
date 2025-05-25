@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import DeviceStatusTable from "../../components/DeviceStatusTable";
 
 const Devices = () => {
   return (
-    <div>Devices</div>
-  )
-}
+    <div className=" flex  justify-center bg-white rounded-[10px] p-[80px] max-h-full">
+      Device
+      <DeviceStatusTable/>
+    </div>
+  );
+};
 
-export default Devices
+export default Devices;

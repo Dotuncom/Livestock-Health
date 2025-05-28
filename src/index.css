@@ -16,7 +16,7 @@
 }
 
 .Poppins {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', "Arial", sans-serif;
 }
 
 @import "tailwindcss";

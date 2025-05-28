@@ -42,7 +42,7 @@ const OTPVerification = () => {
     alert(`OTP Verified for ${userType || "user"}! Proceeding...`);
 
     if (userType === "farmer") {
-      navigate("/dashboard");
+      navigate("/farmer-dashboard");
     } else if (userType === "vet") {
       navigate("/vet-dashboard");
     } else {

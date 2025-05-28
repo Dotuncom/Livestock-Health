@@ -20,7 +20,7 @@ export default function Dashboard() {
         </div>
 
         <div className="bg-[#f8f9fa] rounded-lg p-4 shadow">
-          <h2 className="font-semibold text-xl mb-2">Temperature Trend</h2>
+          <h2 className="font-semibold text-xl mb-5">Temperature Trend</h2>
           <TemperatureTrendChart />
         </div>
 

@@ -27,6 +27,11 @@ import VetOnboarding from "./components/Auth/VetOnboarding";
 import BookAppointment from "./components/BookAppointment";
 import Vet from "./Pages/Farmer/Vet";
 import VetProfile from "./components/VetProfile";
+import Farmer from "./Pages/vet/Farmer";
+import Messages from "./Pages/vet/Messages";
+import FarmerReport from "./Pages/vet/FarmerReport";
+import Appointment from "./Pages/vet/Appointment";
+import VetAlert from "./Pages/vet/VetAlert";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,7 +47,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/otp" element={<Otp />} />
       <Route element={<DashboardLayout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/farmer-dashboard" element={<Dashboard />} />
         <Route path="/animal" element={<Animals />} />
         <Route path="/animal-profile/:id"  element={<AnimalProfile />} />
         <Route path="/reports" element={<Report />} />
@@ -55,8 +60,12 @@ const router = createBrowserRouter(
       </Route>
       {/* {vetdashboard } */}
       <Route element={<VetDashboardLayout/>}>
+      <Route path='/appointment' element={<Appointment/>}/>
       <Route path="/vet-dashboard" element={<vetDashboard />} />
-       {/* <Route path="/appointments" element={<Appointment/>}/> */}
+      <Route path='/farmer' element={<Farmer/>}/>
+      <Route path='/messages' element={<Messages/>}/>
+      <Route path='/vet-alerts' element={<VetAlert/>}/>
+      <Route path='/farmer-report' element={<FarmerReport/>}/>
       </Route>
 
     </Route>

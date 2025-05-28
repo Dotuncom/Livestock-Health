@@ -1,0 +1,1 @@
+//src/components/FarmerSummaryCard.jsx

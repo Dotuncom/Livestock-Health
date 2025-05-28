@@ -1,35 +1,39 @@
-import TemperatureTrendChart from "../..//components/TemperatureTrendChart";
-import HealthStatusPieChart from "../../components/HealthStatusPieChart";
-import HeartTrendChart from "../../components/HeartTrendChart";
-import LivestockStatusTable from "../../components/LiveStockStatusTable";
-
-const Report = () => {
+import TemperatureTrendChart from '../../components/TemperatureTrendChart';
+import HeartTrendChart from '../../components/HeartTrendChart';
+import HealthPieChart from '../../components/HealthStatusPieChart';
+import SensorDataTable from '../../components/SensorDataTable';
+export default function Dashboard() {
+  const dummyData = [
+    { id: '005', temperature: 101.2, heartbeat: 72, steps: 2345, status: 'Healthy' },
+    { id: '006', temperature: 102.3, heartbeat: 89, steps: 2100, status: 'At Risk' },
+    { id: '007', temperature: 103.1, heartbeat: 95, steps: 1950, status: 'Critical' },
+  ];
+  
   return (
-    <div className="w-full md:w-[1194px] bg-white p-4 md:p-5 mx-auto">
-      <div className="flex flex-col gap-6 md:gap-3 md:justify-center">
+    <div className="p-4 space-y-8 bg-white min-h-screen overflow-x-hidden">
+      <h1 className="text-2xl font-bold">LiveStock Health Report</h1>
 
-        {/* Top Charts Section */}
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-[4rem] w-full h-auto md:h-[300px]">
-          <div className="w-full md:w-auto">
-            <TemperatureTrendChart />
-          </div>
-          <div className="w-full md:w-auto">
-            <HealthStatusPieChart />
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="bg-[#f8f9fa] rounded-lg p-4 shadow">
+          <h2 className="font-semibold text-xl mb-2">Health Distribution</h2>
+          <HealthPieChart/>
         </div>
 
-        {/* Heart Chart */}
-        <div className="w-full md:w-[497px] md:h-[300px] mt-6">
+        <div className="bg-[#f8f9fa] rounded-lg p-4 shadow">
+          <h2 className="font-semibold text-xl mb-2">Temperature Trend</h2>
+          <TemperatureTrendChart />
+        </div>
+
+        <div className="bg-[#f8f9fa] rounded-lg p-4 shadow">
+          <h2 className="font-semibold text-xl mb-2">Heartbeat Trend</h2>
           <HeartTrendChart />
         </div>
       </div>
+      <div className="p-4 space-y-8 bg-white min-h-screen overflow-x-hidden">
+      <h1 className="text-2xl font-bold">Sensor Data Overview</h1>
 
-      {/* Table Section */}
-      <div className="mt-6">
-        <LivestockStatusTable />
-      </div>
+      <SensorDataTable data={dummyData} />
+    </div>
     </div>
   );
-};
-
-export default Report;
+}

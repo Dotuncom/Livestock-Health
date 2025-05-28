@@ -4,7 +4,8 @@ import React from "react";
 // import FarmRegistrationWizard from 'src/components/FarmRegistrationWizard'
 function FarmerProfile() {
   return (
-    <div className="bg-white max-w-7xl mx-auto px-12 rounded-2xl pt-[2rem] shadow-sm">
+    <div className='h-full bg-white h'>
+<div className="bg-white max-w-7xl mx-auto px-12 rounded-2xl pt-[2rem] shadow-sm">
       {/* Profile Header */}
       <div className="flex flex-col items-center md:flex-row md:items-center md:justify-start gap-6 mb-12">
         <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
@@ -24,10 +25,7 @@ function FarmerProfile() {
       <form className="grid grid-cols-1 md:grid-cols-2  gap-x-10 gap-y-8 justify-between">
         {[
           { label: "Full Name", type: "text", value: "Samson James" },
-          { label: "Number of Animals", type: "number", value: "12" },
           { label: "Location", type: "text", value: "Jos, Nigeria" },
-          { label: "Animal Type", type: "text", value: "Cattle" },
-          { label: "Email Address", type: "email", value: "samson@email.com" },
           { label: "Phone Number", type: "tel", value: "+2348012345678" },
         ].map((field, i) => (
           <div
@@ -45,17 +43,6 @@ function FarmerProfile() {
           </div>
         ))}
 
-        {/* Gender */}
-        <div className="w-full md:w-[345px] max-w-[310px] mx-auto md:mx-0">
-          <label className="block text-2xl Nunito font-medium mb-1 h-[40px]">
-            Gender
-          </label>
-          <select className="w-full h-[40px] border border-gray-300 rounded-md px-3 text-2xl Nunito font-medium">
-            <option selected>Male</option>
-            <option>Female</option>
-            <option>Prefer not to say</option>
-          </select>
-        </div>
 
         {/* Farm Type */}
         <div className="w-full md:w-[345px] max-w-[310px] mx-auto md:mx-0">
@@ -85,9 +72,10 @@ function FarmerProfile() {
           Save Changes
         </button>
       </div>
-      {/* <FarmRegistrationWizard/> */}
     </div>
-  );
+
+    </div>
+      );
 }
 
 export default FarmerProfile;

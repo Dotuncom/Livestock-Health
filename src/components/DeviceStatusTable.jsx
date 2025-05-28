@@ -1,33 +1,23 @@
-//src/components/DeviceStatusTable.jsx
 import React, { useEffect, useState } from "react";
-import {
-  FaBatteryFull,
-  FaPlug,
-  FaExclamationTriangle,
-  FaCheckCircle,
-  FaTimesCircle,
-} from "react-icons/fa";
+import { Icon } from "@iconify/react";
 
 const DeviceStatusTable = () => {
   const [data, setData] = useState([]);
 
-  // Simulate fetching data (hardcoded for now)
   useEffect(() => {
-    // Later: replace with actual API call
-    const fetchData = async () => {
+    const fetchData = () => {
       const fakeData = [
-        { no: 0.11, battery: 80, connected: false, neckStrap: false },
-        { no: 0.15, battery: 90, connected: false, neckStrap: false },
-        { no: 0.25, battery: 35, connected: true, neckStrap: true },
-        { no: 0.21, battery: 15, connected: false, neckStrap: false },
-        { no: 0.55, battery: 0, connected: false, neckStrap: false },
-        { no: 0.45, battery: 49, connected: true, neckStrap: true },
-        { no: 0.22, battery: 0, connected: false, neckStrap: false },
-        { no: 0.35, battery: 29, connected: true, neckStrap: true },
-        { no: 0.44, battery: 80, connected: true, neckStrap: true },
-        { no: 0.20, battery: 20, connected: true, neckStrap: true },
+        { no: "0.11", battery: 80, connected: false },
+        { no: "0.15", battery: 90, connected: false },
+        { no: "0.25", battery: 35, connected: true },
+        { no: "0.21", battery: 15, connected: false },
+        { no: "0.55", battery: 0, connected: false },
+        { no: "0.45", battery: 49, connected: true },
+        { no: "0.22", battery: 0, connected: false },
+        { no: "0.35", battery: 29, connected: true },
+        { no: "0.44", battery: 80, connected: true },
+        { no: "0.20", battery: 20, connected: true },
       ];
-
       setData(fakeData);
     };
 
@@ -40,56 +30,67 @@ const DeviceStatusTable = () => {
     return "text-red-600";
   };
 
-  const renderIcon = (status) =>
-    status ? (
-      <FaCheckCircle className="text-green-600 mx-auto" />
-    ) : (
-      <FaTimesCircle className="text-red-600 mx-auto" />
+  const BatteryIcon = () => (
+    <Icon icon="mdi:battery" width={20} height={20} className="inline-block mr-1" />
+  );
+
+  const ConnectedStatus = ({ connected }) => {
+    return (
+      <div className="flex items-center justify-center gap-2 text-base sm:text-lg font-semibold">
+        {connected ? (
+          <>
+            <Icon icon="mdi:check-circle" className="text-green-600" width={24} height={24} />
+            <span className="text-green-700">Connected</span>
+          </>
+        ) : (
+          <>
+            <Icon icon="mdi:close-circle" className="text-red-600" width={24} height={24} />
+            <span className="text-red-700">Disconnected</span>
+          </>
+        )}
+      </div>
     );
+  };
 
   return (
-    <div className="flex md:w-[px] mt-[10px] gap-8 p-10 bg-white rounded-lg shadow-md">
-      {/* Sidebar */}
-      <div className="flex flex-col gap-[40px] text-green-900 text-base mt-10">
-        <div className="flex items-center gap-3">
-          <FaBatteryFull className="text-2xl" />
-          <span>Battery Level</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <FaPlug className="text-2xl" />
-          <span>Connection Status</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <FaExclamationTriangle className="text-2xl" />
-          <span>Neck Strap</span>
-        </div>
-      </div>
+    <div className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-900">Device Status</h1>
 
-      {/* Table */}
-      <table className="table-auto border-collapse  w-[443px] border border-gray-300 text-sm">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="border border-gray-300 px-4 py-2">N.O</th>
-            <th className="border border-gray-300 px-4 py-2">
-              <FaBatteryFull />
+      <table className="w-full border border-gray-300 border-collapse text-center">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="border border-gray-300 px-4 py-3 text-lg font-semibold text-gray-700">
+              Animal ID
             </th>
-            <th className="border border-gray-300 px-4 py-2">
-              <FaPlug />
+            <th className="border border-gray-300 px-4 py-3 text-lg font-semibold text-gray-700 flex justify-center items-center gap-1">
+              <BatteryIcon />
+              Battery %
             </th>
-            <th className="border border-gray-300 px-4 py-2">
-              <FaExclamationTriangle />
+            <th className="border border-gray-300 px-4 py-3 text-lg font-semibold text-gray-700">
+              Connection
             </th>
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
-            <tr key={index} className="text-center">
-              <td className="border px-4 py-2">{item.no}</td>
-              <td className={`border px-4 py-2 font-semibold ${getBatteryColor(item.battery)}`}>
-                {item.battery}%
+          {data.map(({ no, battery, connected }, idx) => (
+            <tr
+              key={idx}
+              className="hover:bg-gray-50 transition-colors border-b border-gray-200 last:border-none"
+            >
+              <td className="border border-gray-300 px-4 py-3 font-medium text-gray-800 text-base sm:text-lg whitespace-nowrap">
+                {no}
               </td>
-              <td className="border px-4 py-2">{renderIcon(item.connected)}</td>
-              <td className="border px-4 py-2">{renderIcon(item.neckStrap)}</td>
+              <td
+                className={`border border-gray-300 px-4 py-3 font-semibold text-base sm:text-lg flex justify-center items-center gap-1 whitespace-nowrap ${getBatteryColor(
+                  battery
+                )}`}
+              >
+                <BatteryIcon />
+                {battery}%
+              </td>
+              <td className="border border-gray-300 px-4 py-3">
+                <ConnectedStatus connected={connected} />
+              </td>
             </tr>
           ))}
         </tbody>

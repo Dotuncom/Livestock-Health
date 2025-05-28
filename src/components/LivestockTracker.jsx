@@ -33,7 +33,7 @@ export default function LivestockTracker() {
       <MapContainer
         center={[37.7749, -122.4194]}
         zoom={13}
-        className="h-[500px] w-full rounded-2xl shadow"
+        className="w-full h-[300px] sm:h-[500px] rounded-2xl shadow"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

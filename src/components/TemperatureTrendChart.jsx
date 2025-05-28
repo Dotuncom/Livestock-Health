@@ -1,78 +1,27 @@
-import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-} from "chart.js";
-import { Line } from "react-chartjs-2";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-// Register chart components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const data = [
+  { name: 'Mon', temp: 97.8 },
+  { name: 'Tue', temp: 99 },
+  { name: 'Wed', temp: 100 },
+  { name: 'Thu', temp: 100.5 },
+  { name: 'Fri', temp: 101.2 },
+  { name: 'Sat', temp: 102 },
+  { name: 'Sun', temp: 102.1 },
+];
 
-const TemperatureTrendChart = () => {
-  const data = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    datasets: [
-      {
-        label: "Temperature (F)",
-        data: [97.8, 98.6, 99.2, 99.0, 100.5, 101.8, 102.2],
-        fill: false,
-        borderColor: "green",
-        tension: 0.4,
-        pointRadius: 2,
-        pointBackgroundColor: "green"
-      }
-    ]
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: {
-        display: true,
-        text: "Temperature Trend for 005",
-        font: {
-          size: 16
-        }
-      },
-      legend: {
-        display: false
-      }
-    },
-    scales: {
-      y: {
-        title: {
-          display: true,
-          text: "°F"
-        },
-        ticks: {
-          callback: (value) => `${value} F`
-        },
-        min: 97,
-        max: 103
-      }
-    }
-  };
-
+export default function TemperatureTrendChart() {
   return (
-    <div className="w-full h-[250px] md:w-[497px] md:h-[300px]">
-      <Line data={data} options={options} />
+    <div className="w-full h-[300px] md:h-[400px]">
+      <ResponsiveContainer>
+        <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis unit="°F" domain={[97, 103]} />
+          <Tooltip />
+          <Line type="monotone" dataKey="temp" stroke="#388e3c" strokeWidth={2} dot={{ r: 4 }} />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
-};
-
-export default TemperatureTrendChart;
+}

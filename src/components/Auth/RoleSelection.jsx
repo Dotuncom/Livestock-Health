@@ -31,14 +31,14 @@ const RoleSelection = () => {
 
         {/* Buttons */}
         <button
-          onClick={() => navigate("/farmer-form")}
+          onClick={() => navigate("/farmer-form", { state: { userType: "farmer" } })}
           className="w-[247px] md:w-full md:max-w-[350px] h-[45px] md:h-[58px] text-sm md:text-xl py-2 mb-4 bg-green-700 hover:bg-green-800 text-white rounded-2xl font-semibold transition-all"
         >
           I'm a Farmer
         </button>
 
         <button
-          onClick={() => navigate("/form/vet")}
+          onClick={() => navigate("/vet-form", { state: { userType: "vet" } })}
           className="w-[247px] md:w-full md:max-w-[350px] h-[45px] md:h-[58px] text-sm md:text-xl py-2 bg-transparent rounded-2xl outline outline-1 outline-white hover:bg-white hover:text-black text-white font-semibold transition-all"
         >
           I'm a Vet

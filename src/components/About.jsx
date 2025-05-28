@@ -6,7 +6,7 @@ import React from "react";
 const About = () => {
   return (
     <div className="">
-      <h1 className=" text-white flex items-center justify-center md:text-[43px] h-[100px] text-center  text-2xl Poppins font-bold bg-[#EFEEEE]">
+      <h1 className="  flex items-center justify-center md:text-[43px] h-[100px] text-center  text-2xl Poppins font-bold bg-[#EFEEEE]">
         About us
       </h1>
       <div className="flex flex-col md:flex-row md:h-[600px] ">

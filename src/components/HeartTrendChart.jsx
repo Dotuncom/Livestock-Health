@@ -1,77 +1,27 @@
-import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-} from "chart.js";
-import { Line } from "react-chartjs-2";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-// Register components with Chart.js
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const data = [
+  { name: 'Mon', bpm: 60 },
+  { name: 'Tue', bpm: 64 },
+  { name: 'Wed', bpm: 67 },
+  { name: 'Thu', bpm: 70 },
+  { name: 'Fri', bpm: 72 },
+  { name: 'Sat', bpm: 71 },
+  { name: 'Sun', bpm: 69 },
+];
 
-const HeartTrendChart = () => {
-  const data = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    datasets: [
-      {
-        label: "Heart Rate (BPM)",
-        data: [52, 58, 65, 73, 80, 88, 85],
-        borderColor: "green",
-        fill: false,
-        tension: 0.4,
-        pointRadius: 2,
-        pointBackgroundColor: "green"
-      }
-    ]
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: {
-        display: true,
-        font: {
-          size: 16
-        }
-      },
-      legend: {
-        display: false
-      }
-    },
-    scales: {
-      y: {
-        min: 50,
-        max: 95,
-        ticks: {
-          callback: (value) => `${value} BPM`
-        },
-        title: {
-          display: true,
-          text: "BPM"
-        }
-      }
-    }
-  };
-
+export default function HeartbeatTrendChart() {
   return (
-    <div className="w-full h-[250px] md:w-[543px] md:h-[300px]">
-      <Line data={data} options={options} />
+    <div className="w-full h-[300px] md:h-[400px]">
+      <ResponsiveContainer>
+        <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis unit=" bpm" domain={[55, 80]} />
+          <Tooltip />
+          <Line type="monotone" dataKey="bpm" stroke="#e53935" strokeWidth={2} dot={{ r: 4 }} />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
-};
-
-export default HeartTrendChart;
+}

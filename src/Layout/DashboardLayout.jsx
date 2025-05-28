@@ -1,30 +1,38 @@
+// // export default DashboardLayout;
+// import { NavLink, Outlet, useLocation } from "react-router-dom";
+// import logoo from "../assets/logoo.png";
+// // import { AlignJustify } from "lucide-react";
+// import Header from "./Header";
+// import { Icon } from "@iconify/react";
 // import { useState } from "react";
 
-
-//  function DashboardLayout() {
+// function DashboardLayout() {
 //   const [open, setOpen] = useState(false);
+//   const location = useLocation();
 
 //   const navClasses = ({ isActive }) =>
 //     `flex items-center space-x-[15px] px-4 py-2 rounded transition-colors ${
 //       isActive ? "bg-green-700 text-white font-bold" : "hover:bg-[#3A7D34]"
 //     }`;
 
+//   const getTitle = (pathname) => {
+//     if (pathname.includes('/dashboard')) return 'Animal Overview';
+//     if (pathname.includes('/animal')) return 'Animal';
+//     if (pathname.includes('/devices')) return 'Devices';
+//     if (pathname.includes('/report')) return 'Reports';
+//     if (pathname.includes('/alert')) return 'Alert';
+//     if (pathname.includes('/vet')) return 'Meet vet';
+//     if (pathname.includes('/profile')) return 'Profile';
+//     return 'Dashboard';
+//   };
 
-//   // Dashboard title
-// const location =  useLocation();
-// const getTitle = (pathname)=>{
-//   if(pathname.includes('/dashboard') ) return 'Animal Overview'
-//   if(pathname.includes('/animal')) return 'Animal'
-//   if(pathname.includes('/devices')) return 'Devices'
-//   if(pathname.includes('/report')) return 'Reports'
-//   if(pathname.includes('/alert')) return 'Alert'
-//   if(pathname.includes('/location')) return 'Animal Location'
-//   if(pathname.includes('/profile')) return ' Profile'
+//   const currentTitle = getTitle(location.pathname);
 
-//   return 'Dashboard'
-// }
-// const currentTitle = getTitle(location.pathname)
-
+//   const handleNavClick = () => {
+//     if (window.innerWidth < 768) {
+//       setOpen(false);
+//     }
+//   };
 
 //   return (
 //     <div className="flex h-screen">
@@ -41,38 +49,38 @@
 //         />
 
 //         <nav className="space-y-[18px]">
-//           <NavLink to="/dashboard" end className={navClasses}>
-//             <img className="object-cover h-[24px] w-[24px]" src={dashboard} alt="dashboard icon" />
+//           <NavLink to="/dashboard" end className={navClasses} onClick={handleNavClick}>
+//             <Icon icon="mdi:view-dashboard-outline" className="h-[24px] w-[24px]" />
 //             <span>Dashboard</span>
 //           </NavLink>
 
-//           <NavLink to="/animal" className={navClasses}>
-//             <img className="object-cover h-[24px] w-[24px]" src={animal} alt="animal icon" />
+//           <NavLink to="/animal" className={navClasses} onClick={handleNavClick}>
+//             <Icon icon="mdi:paw" className="h-[24px] w-[24px]" />
 //             <span>Animals</span>
 //           </NavLink>
 
-//           <NavLink to="/reports" className={navClasses}>
-//             <img className="object-cover h-[24px] w-[24px]" src={analytics} alt="analytics icon" />
+//           <NavLink to="/reports" className={navClasses} onClick={handleNavClick}>
+//             <Icon icon="mdi:chart-box-outline" className="h-[24px] w-[24px]" />
 //             <span>Reports</span>
 //           </NavLink>
 
-//           <NavLink to="/devices" className={navClasses}>
-//             <img className="object-cover h-[24px] w-[24px]" src={device} alt="device icon" />
+//           <NavLink to="/devices" className={navClasses} onClick={handleNavClick}>
+//             <Icon icon="mdi:chip" className="h-[24px] w-[24px]" />
 //             <span>Devices</span>
 //           </NavLink>
 
-//           <NavLink to="/alerts" className={navClasses}>
-//             <img className="object-cover h-[24px] w-[24px]" src={alert} alt="alert icon" />
+//           <NavLink to="/alerts" className={navClasses} onClick={handleNavClick}>
+//             <Icon icon="mdi:bell-alert-outline" className="h-[24px] w-[24px]" />
 //             <span>Alert</span>
 //           </NavLink>
 
-//           <NavLink to="/location" className={navClasses}>
-//             <img className="object-cover h-[24px] w-[24px]" src={location} alt="alert icon" />
-//             <span> Location</span>
+//           <NavLink to="/vet" className={navClasses} onClick={handleNavClick}>
+//             <Icon icon="mdi:stethoscope" className="h-[24px] w-[24px]" />
+//             <span>Vet</span>
 //           </NavLink>
 
-//           <NavLink to="/profile" className={navClasses}>
-//             <img className="object-cover h-[24px] w-[24px]" src={profile} alt="profile icon" />
+//           <NavLink to="/profile" className={navClasses} onClick={handleNavClick}>
+//             <Icon icon="mdi:account-circle-outline" className="h-[24px] w-[24px]" />
 //             <span>Profile</span>
 //           </NavLink>
 //         </nav>
@@ -85,14 +93,14 @@
 //           <img className="h-[40px] w-[40px]" src={logoo} alt="Logo" />
 //           <div className="flex items-center space-x-4">
 //             <button onClick={() => setOpen(!open)} className="focus:outline-none">
-//               {/* <AlignJustify className="w-6 h-6" /> */}=
+//               =
 //             </button>
 //           </div>
 //         </div>
 
 //         {/* Page content */}
 //         <main className="p-4 overflow-auto bg-[#F5F5F5]">
-//           <Header title={currentTitle}/>
+//           <Header title={currentTitle} />
 //           <Outlet />
 //         </main>
 //       </div>
@@ -101,17 +109,12 @@
 // }
 
 // export default DashboardLayout;
-import { NavLink, Outlet,useLocation } from "react-router-dom";
+// export default DashboardLayout;
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import logoo from "../assets/logoo.png";
 // import { AlignJustify } from "lucide-react";
 import Header from "./Header";
-import dashboard from "../assets/dashboard.png";
-import animal from "../assets/animal.png";
-import analytics from "../assets/report.png";
-import device from "../assets/device.png";
-import alert from "../assets/alert.png";
-import location from '../assets/location.png'
-import profile from "../assets/profile.png";
+import { Icon } from "@iconify/react";
 import { useState } from "react";
 
 function DashboardLayout() {
@@ -129,14 +132,13 @@ function DashboardLayout() {
     if (pathname.includes('/devices')) return 'Devices';
     if (pathname.includes('/report')) return 'Reports';
     if (pathname.includes('/alert')) return 'Alert';
-    if (pathname.includes('/location')) return 'Animal Location';
+    if (pathname.includes('/vet')) return 'Meet vet';
     if (pathname.includes('/profile')) return 'Profile';
     return 'Dashboard';
   };
 
   const currentTitle = getTitle(location.pathname);
 
-  // Closes sidebar on mobile when a link is clicked
   const handleNavClick = () => {
     if (window.innerWidth < 768) {
       setOpen(false);
@@ -159,37 +161,37 @@ function DashboardLayout() {
 
         <nav className="space-y-[18px]">
           <NavLink to="/dashboard" end className={navClasses} onClick={handleNavClick}>
-            <img className="object-cover h-[24px] w-[24px]" src={dashboard} alt="dashboard icon" />
+            <Icon icon="mdi:view-dashboard-outline" className="h-[24px] w-[24px]" />
             <span>Dashboard</span>
           </NavLink>
 
           <NavLink to="/animal" className={navClasses} onClick={handleNavClick}>
-            <img className="object-cover h-[24px] w-[24px]" src={animal} alt="animal icon" />
+            <Icon icon="mdi:paw" className="h-[24px] w-[24px]" />
             <span>Animals</span>
           </NavLink>
 
           <NavLink to="/reports" className={navClasses} onClick={handleNavClick}>
-            <img className="object-cover h-[24px] w-[24px]" src={analytics} alt="analytics icon" />
+            <Icon icon="mdi:chart-box-outline" className="h-[24px] w-[24px]" />
             <span>Reports</span>
           </NavLink>
 
           <NavLink to="/devices" className={navClasses} onClick={handleNavClick}>
-            <img className="object-cover h-[24px] w-[24px]" src={device} alt="device icon" />
+            <Icon icon="mdi:chip" className="h-[24px] w-[24px]" />
             <span>Devices</span>
           </NavLink>
 
           <NavLink to="/alerts" className={navClasses} onClick={handleNavClick}>
-            <img className="object-cover h-[24px] w-[24px]" src={alert} alt="alert icon" />
+            <Icon icon="mdi:bell-alert-outline" className="h-[24px] w-[24px]" />
             <span>Alert</span>
           </NavLink>
 
-          <NavLink to="/location" className={navClasses} onClick={handleNavClick}>
-            <img className="object-cover h-[24px] w-[24px]" src={alert} alt="location icon" />
-            <span>Location</span>
+          <NavLink to="/vet" className={navClasses} onClick={handleNavClick}>
+            <Icon icon="mdi:stethoscope" className="h-[24px] w-[24px]" />
+            <span>Vet</span>
           </NavLink>
 
           <NavLink to="/profile" className={navClasses} onClick={handleNavClick}>
-            <img className="object-cover h-[24px] w-[24px]" src={profile} alt="profile icon" />
+            <Icon icon="mdi:account-circle-outline" className="h-[24px] w-[24px]" />
             <span>Profile</span>
           </NavLink>
         </nav>
@@ -200,10 +202,18 @@ function DashboardLayout() {
         {/* Mobile navbar */}
         <div className="bg-green-900 text-white p-4 flex justify-between items-center md:hidden">
           <img className="h-[40px] w-[40px]" src={logoo} alt="Logo" />
-          <div className="flex items-center space-x-4">
-            <button onClick={() => setOpen(!open)} className="focus:outline-none">
-              {/* Mobile toggle icon (you can use an actual icon here) */}
-              =
+
+          <div className="flex items-center space-x-6">
+            {/* Notification Icon */}
+            <button className="relative focus:outline-none" aria-label="Notifications">
+              <Icon icon="mdi:bell-outline" className="h-6 w-6" />
+              {/* Optional red dot for unread notifications */}
+              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600"></span>
+            </button>
+
+            {/* Hamburger Icon */}
+            <button onClick={() => setOpen(!open)} className="focus:outline-none" aria-label="Toggle menu">
+              <Icon icon="mdi:menu" className="h-9 w-9" />
             </button>
           </div>
         </div>
@@ -219,3 +229,4 @@ function DashboardLayout() {
 }
 
 export default DashboardLayout;
+

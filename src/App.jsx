@@ -8,7 +8,7 @@ import Layout from "./Pages/Layout";
 import Homepage from "./Pages/Homepage";
 import SignUp from "./components/Auth/SignUp";
 import Login from "./components/Auth/Login";
-igimport Otp from "./components/Auth/Otp";
+import Otp from "./components/Auth/Otp";
 import Dashboard from "./Pages/Farmer/Dashboard";
 import DashboardLayout from "./Layout/DashboardLayout";
 import Animals from "./Pages/Farmer/Animals";
@@ -21,6 +21,12 @@ import AnimalProfile from "./components/AnimalProfile";
 import RoleSelection from "./components/Auth/RoleSelection";
 import FarmerForm from "./components/Auth/FarmerForm";
 import VetDashboardLayout from "./Layout/VetDashboardLayout";
+import VetForm from "./components/Auth/VetForm";
+import FarmerOnboarding from "./components/Auth/FarmerOnboarding";
+import VetOnboarding from "./components/Auth/VetOnboarding";
+import BookAppointment from "./components/BookAppointment";
+import Vet from "./Pages/Farmer/Vet";
+import VetProfile from "./components/VetProfile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,23 +36,27 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/role-selection" element={<RoleSelection />} />
       <Route path="/farmer-form" element={<FarmerForm />} />
-      <Route path="/signup" element={<SignUp />} />
+      <Route path="farmer-onboarding" element={<FarmerOnboarding/>}/>
+      <Route path='/vet-form' element={<VetForm/>}/>
+      <Route path='/vet-onboarding' element={<VetOnboarding/>}/>
       <Route path="/login" element={<Login />} />
-      <Route path="/auth" element={<Otp />} />
+      <Route path="/otp" element={<Otp />} />
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/animal" element={<Animals />} />
-        <Route path="/animal-profile" element={<AnimalProfile />} />
+        <Route path="/animal-profile/:id"  element={<AnimalProfile />} />
         <Route path="/reports" element={<Report />} />
         <Route path="/devices" element={<Devices />} />
         <Route path="/alerts" element={<Alert />} />
-        <Route path="/location" element={<Location />} />
+        <Route path="/vet-profile/:id" vet element={<VetProfile/>}/>
+        <Route path='/vet' element={<Vet/>}/>
+        <Route path='/book-appointment/:id' element ={<BookAppointment/>}/>
         <Route path="/profile" element={<Profile />} />
       </Route>
-      {/* {vvetdashboard } */}
+      {/* {vetdashboard } */}
       <Route element={<VetDashboardLayout/>}>
-      <Route path="/vetdashboard" element={<etDashboard />} />
-
+      <Route path="/vet-dashboard" element={<vetDashboard />} />
+       {/* <Route path="/appointments" element={<Appointment/>}/> */}
       </Route>
 
     </Route>

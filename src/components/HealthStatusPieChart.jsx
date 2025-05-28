@@ -1,106 +1,48 @@
-// // components/HealthStatusPieChart.jsx
-// import {
-//     Chart as ChartJS,
-//     ArcElement,
-//     Tooltip,
-//     Legend,
-//   } from 'chart.js';
-//   import { Pie } from 'react-chartjs-2';
-  
-//   // Register components
-//   ChartJS.register(ArcElement, Tooltip, Legend);
-  
-//   const HealthStatusPieChart = () => {
-//     const data = {
-//       labels: ['Healthy', 'At Risk', 'Critical', 'Dead'],
-//       datasets: [
-//         {
-//           label: 'Livestock Health',
-//           data: [60, 25, 10, 5],
-//           backgroundColor: [
-//             '#2E7D32', // Healthy - green
-//             '#FFA726', // At Risk - orange
-//             '#D32F2F', // Critical - red
-//             '#212121', // Dead - black
-//           ],
-//           borderWidth: 1,
-//         },
-//       ],
-//     };
-  
-//     const options = {
-//       responsive: true,
-//       maintainAspectRatio: false,
-//       plugins: {
-//         legend: {
-//           position: 'right',
-//           labels: {
-//             color: '#000',
-//             font: {
-//               size: 14,
-//             },
-//           },
-//         },
-//       },
-//     };
-  
-//     return (
-//       <div className="w-[270px] h-[275px] bg-white ">
-//         <Pie data={data} options={options} />
-//       </div>
-//     );
-//   };
-  
-//   export default HealthStatusPieChart;
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from 'recharts';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+const data = [
+  { name: 'Healthy', value: 60 },
+  { name: 'At Risk', value: 25 },
+  { name: 'Critical', value: 15 },
+];
 
-const HealthStatusPieChart = () => {
-  const data = {
-    labels: ['Healthy', 'At Risk', 'Critical', 'Dead'],
-    datasets: [
-      {
-        label: 'Livestock Health',
-        data: [60, 25, 10, 5],
-        backgroundColor: [
-          '#2E7D32', // Healthy - green
-          '#FFA726', // At Risk - orange
-          '#D32F2F', // Critical - red
-          '#212121', // Dead - black
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+const COLORS = ['#2e7d32', '#ff9800', '#d32f2f'];
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'right',
-        labels: {
-          color: '#000',
-          font: {
-            size: 14,
-          },
-        },
-      },
-    },
-  };
-
+const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+  const RADIAN = Math.PI / 180;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
   return (
-    <div className="w-full max-w-[270px] h-[275px] md:h-[275px] sm:h-[250px] xs:h-[225px]">
-      <Pie data={data} options={options} />
-    </div>
+    <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={14}>
+      {(percent * 100).toFixed(0)}%
+    </text>
   );
 };
 
-export default HealthStatusPieChart;
+export default function HealthPieChart() {
+  return (
+    <div className="w-full h-[300px] md:h-[400px]">
+      <ResponsiveContainer>
+        <PieChart>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            label={renderCustomLabel}
+            outerRadius={100}
+            fill="#8884d8"
+            dataKey="value"
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index]} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend HorizontalAlign="top" height={36} />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}

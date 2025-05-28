@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 function Hero() {
   const xml = (
     <div className="w-full flex justify-center items-center hero h-[90rem] relative max-lg:h-[64.2rem]">
-      <div className="w-full h-full absolute top-0 left-0 bg-[linear-gradient(89.94deg,rgba(0,0,0,0.8)_0.06%,rgba(42,64,42,0.658925)_60.5%,rgba(59,91,60,0.8)_100%)] pt-[calc(15.1rem)] pl-[clamp(1rem,7.222222222222222vw,10.4rem)] max-lg:px-0 max-lg:pt-[10.3rem] max-lg:bg-[linear-gradient(180deg,rgba(29,71,25,0.6)_17.79%,rgba(0,0,0,0.7)_56.73%)] ">
+      <div className="w-full h-full absolute top-0 left-0 opacity-50 bg-gradient-to-l from-black/80 via-zinc-800/70 to-neutral-700/80 pt-[calc(15.1rem)] pl-[clamp(1rem,7.222222222222222vw,10.4rem)] max-lg:px-0 max-lg:pt-[10.3rem] ">
         <div className="">
           <h1 className="font-[Poppins] font-semibold text-[6.4rem] leading-[141%] text-white mb-[1.9rem] max-lg:text-center max-lg:text-[2.8rem] max-lg:leading-[3.8rem] max-lg:mb-[2.3rem]">
             <span className="max-lg:hidden">

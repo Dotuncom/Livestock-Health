@@ -14,13 +14,13 @@ const About = () => {
           className=" h-[218px] md:w-full md:min-w-[570px]   md:h-full bg-cover bg-center"
           style={{ backgroundImage: `url(${AboutImg})` }}
         ></div>
-        <div className="text-center md:text-left Inter bg-[#1D4719] md:w-full md:text-[20px]  text-white px-[43px] md:p-[100px] ">
-          <div className="w-[300px] md:w-full  space-y-[1rem] md:space-y-[2rem] md:leading-[32px] ">
-            <h1 className="text-base md:text-[20px] font-bold">
+        <div className="text-center  text-[13px] md:text-left Inter bg-[#1D4719] md:w-full md:text-[20px]  text-white pl-[43px] md:pr-[100px] ">
+          <div className="w-[300px] pt-[35px] md:w-full  md:text-xl space-y-[2rem] px-[10px] leading-[20px] md:space-y-[1rem] md:pt-[100px] md:space-y-[53px] md:leading-[32px] ">
+            <h1 className=" text-[13px] md:text-[14px] md:[62px] leading-loose  font-bold">
               At Qiwo Cares, we’re transforming livestock farming with the power
               of smart technology
             </h1>
-            <p>
+            <p className="">
               Our mission is simple: to help farmers protect their animals,
               reduce losses, and make faster, data-driven decisions. We’ve built
               an intelligent health monitoring system that combines a

@@ -31,6 +31,7 @@ import Farmer from "./Pages/vet/Farmer";
 import Messages from "./Pages/vet/Messages";
 import FarmerReport from "./Pages/vet/FarmerReport";
 import Appointment from "./Pages/vet/Appointment";
+import VetDashboard from "./Pages/vet/VetDashboard";
 import VetAlert from "./Pages/vet/VetAlert";
 
 const router = createBrowserRouter(
@@ -61,7 +62,7 @@ const router = createBrowserRouter(
       {/* {vetdashboard } */}
       <Route element={<VetDashboardLayout/>}>
       <Route path='/appointment' element={<Appointment/>}/>
-      <Route path="/vet-dashboard" element={<vetDashboard />} />
+      <Route path='/vet-dashboard' element={<VetDashboard/>} />
       <Route path='/farmer' element={<Farmer/>}/>
       <Route path='/messages' element={<Messages/>}/>
       <Route path='/vet-alerts' element={<VetAlert/>}/>

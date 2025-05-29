@@ -15,7 +15,7 @@ function DashboardLayout() {
     }`;
 
   const getTitle = (pathname) => {
-    if (pathname.includes('/dashboard')) return 'Animal Overview';
+    if (pathname.includes('/farmers-dashboard')) return 'Animal Overview';
     if (pathname.includes('/animal')) return 'Animal';
     if (pathname.includes('/devices')) return 'Devices';
     if (pathname.includes('/report')) return 'Reports';
@@ -48,7 +48,7 @@ function DashboardLayout() {
         />
 
         <nav className="space-y-[18px]">
-          <NavLink to="/dashboard" end className={navClasses} onClick={handleNavClick}>
+          <NavLink to="/farmer-dashboard" end className={navClasses} onClick={handleNavClick}>
             <Icon icon="mdi:view-dashboard-outline" className="h-[24px] w-[24px]" />
             <span>Dashboard</span>
           </NavLink>

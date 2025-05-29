@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logoo from "../../assets/logoo.png";
-import signupbg from "../../assets/signupbg.svg";
+import authbg from "../../assets/authbg.png";
 
 export default function FarmerOnboarding() {
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ export default function FarmerOnboarding() {
   };
 
   const inputStyle =
-    "w-[210px] md:w-[538px] h-[28px] md:h-[72px] border-none  px-4 rounded bg-[#EFEEEE]  placeholder:text-sm md:placeholder:text-2xl text-base md:text-2xl";
+    "w-[210px] md:w-[538px] h-[28px] md:h-[60px] border-none  px-4 rounded bg-[#EFEEEE]  placeholder:text-sm md:placeholder:text-2xl text-base md:text-2xl";
 
   const buttonStyle =
     "w-[210px] md:w-[538px] h-[28px] md:h-[72px] bg-green-800 text-white rounded hover:bg-green-900 text-base md:text-2xl font-semibold";
@@ -52,11 +52,11 @@ export default function FarmerOnboarding() {
       {/* Desktop background */}
       <div
         className="hidden md:block md:w-1/2 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${signupbg})` }}
+        style={{ backgroundImage: `url(${authbg})` }}
       >
         <div className="absolute inset-0 bg-black opacity-50 flex flex-col justify-center items-center">
           <p className="text-white text-sm md:text-lg">
-            Your partner in livestock health
+          
           </p>
         </div>
       </div>
@@ -64,7 +64,7 @@ export default function FarmerOnboarding() {
       {/* Mobile background + logo */}
       <div
         className="block md:hidden w-full h-full absolute bg-cover bg-center -z-10"
-        style={{ backgroundImage: `url(${signupbg})` }}
+        style={{ backgroundImage: `url(${authbg})` }}
       >
         <div className="block md:hidden w-full p-4 flex justify-center">
           <img src={logoo} alt="Qiwo Farms" className="w-[165px] pt-7" />
@@ -74,10 +74,10 @@ export default function FarmerOnboarding() {
       {/* Form section */}
       <div className="w-full md:w-1/2 flex items-center justify-center p-6 mt-60 md:mt-0">
         <div className="bg-white p-8 rounded-lg shadow-md w-[300px] md:w-full max-w-[538px] flex flex-col items-center">
-          <h2 className="text-2xl md:text-4xl md:font-bold mb-2 text-center md:text-left">
+          <h2 className="text-2xl md:text-4xl md:font-bold mb-2  md:text-left">
             Onboarding Details
           </h2>
-          <p className="text-sm md:text-lg md:text-gray-500 mb-6 text-center md:text-left">
+          <p className="text-sm md:text-[18px] md:text-gray-500 mb-6  md:text-left">
             Tell us about your farm
           </p>
           <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">

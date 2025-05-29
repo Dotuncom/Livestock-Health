@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Mail, User, Stethoscope, Lock } from "lucide-react";
 import logoo from "../../assets/logoo.png";
-import signupbg from "../../assets/signupbg.svg";
+import authbg from "../../assets/authbg.png";
 
 export default function VetForm() {
   const navigate = useNavigate();
@@ -23,7 +23,8 @@ export default function VetForm() {
   };
 
   const validateSignup = () => {
-    const { email, name, specialization, password, confirmPassword } = signupData;
+    const { email, name, specialization, password, confirmPassword } =
+      signupData;
     if (!email || !name || !specialization || !password || !confirmPassword) {
       alert("Please fill in all fields");
       return false;
@@ -58,34 +59,36 @@ export default function VetForm() {
       {/* Desktop Background */}
       <div
         className="hidden md:block md:w-1/2 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${signupbg})` }}
+        style={{ backgroundImage: `url(${authbg})` }}
       >
-        <div className="absolute inset-0 bg-black opacity-50 flex flex-col justify-center items-center">
-          <p className="text-white text-sm md:text-lg">
-            Your partner in livestock health
-          </p>
-        </div>
+        <div className="absolute  flex flex-col justify-center items-center"></div>
       </div>
 
       {/* Mobile background + logo */}
       <div
         className="block md:hidden w-full h-full absolute bg-cover bg-center -z-10"
-        style={{ backgroundImage: `url(${signupbg})` }}
+        style={{ backgroundImage: `url(${authbg})` }}
       />
       <div className="block md:hidden w-full p-4 flex justify-center">
         <img src={logoo} alt="Qiwo Farms" className="w-[165px] pt-7" />
       </div>
 
       {/* Form Section */}
-      <div className="w-full md:w-1/2 flex items-center justify-center p-6 mt-60 md:mt-0">
+      <div className="w-full md:w-1/2 flex items-center Poppins justify-center p-6 mt-40 md:mt-0">
         <div className="bg-white p-8 rounded-lg shadow-md md:w-full w-[300px]">
-          <h2 className="text-2xl md:text-4xl md:font-bold mb-2 text-center md:text-left">
-            Create an Account
-          </h2>
-          <p className="text-sm md:text-lg md:text-gray-500 mb-6 text-center md:text-left">
-            Register as a Vet
-          </p>
-          <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">
+          <div className="md:ml-[4.5rem] md:mb-[3rem]">
+            <h2 className="text-2xl  font-bold md:text-4xl md:font-bold mb-2 text-center md:text-left">
+              Create an Account
+            </h2>
+            <p className="text-[xl] md:text-2xl md:text-gray-500 mb-6 text-center md:text-left">
+              Register as a Vet
+            </p>
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 flex flex-col items-center"
+          >
             {/* Email */}
             <div className={inputContainerStyle}>
               <Mail className={iconStyle} />

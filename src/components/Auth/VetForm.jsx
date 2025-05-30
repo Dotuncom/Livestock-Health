@@ -1,8 +1,10 @@
+
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Mail, User, Stethoscope, Lock } from "lucide-react";
 import logoo from "../../assets/logoo.png";
 import authbg from "../../assets/authbg.png";
+import { toast } from "react-toastify";
 
 export default function VetForm() {
   const navigate = useNavigate();
@@ -26,11 +28,11 @@ export default function VetForm() {
     const { email, name, specialization, password, confirmPassword } =
       signupData;
     if (!email || !name || !specialization || !password || !confirmPassword) {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields");
       return false;
     }
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return false;
     }
     return true;

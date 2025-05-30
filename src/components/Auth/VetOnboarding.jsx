@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logoo from "../../assets/logoo.png";
 import authbg from "../../assets/authbg.png";
+import { toast } from "react-toastify";
 
 export default function VetOnboarding() {
   const navigate = useNavigate();
@@ -34,9 +35,24 @@ export default function VetOnboarding() {
     }
   };
 
+  const validateOnboarding = () => {
+    const { yearsOfExperience, clinicName, licenseNumber, preferredAnimals } = onboardingData;
+    if (!yearsOfExperience || !clinicName || !licenseNumber) {
+      toast.error("Please fill in all fields");
+      return false;
+    }
+    if (preferredAnimals.length === 0) {
+      toast.error("Please select at least one preferred animal");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/otp", { state: { signupData, onboardingData, userType } });
+    if (validateOnboarding()) {
+      navigate("/otp", { state: { signupData, onboardingData, userType } });
+    }
   };
 
   const inputStyle =
@@ -55,9 +71,7 @@ export default function VetOnboarding() {
         className="hidden md:block md:w-1/2 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${authbg})` }}
       >
-        <div className="absolute inset-0 flex flex-col justify-center items-center">
-          
-        </div>
+        <div className="absolute inset-0 flex flex-col justify-center items-center"></div>
       </div>
 
       {/* Mobile background + logo */}
@@ -73,12 +87,12 @@ export default function VetOnboarding() {
       <div className="w-full md:w-1/2 flex items-center justify-center p-6 mt-60 md:mt-0">
         <div className="bg-white p-8 rounded-lg shadow-md md:w-full w-[300px]">
           <div className="md:pl-[4.5rem] md:mb-[3rem]">
-             <h2 className="text-2xl md:text-4xl md:font-bold mb-2 text-center md:text-left">
-            Onboarding Details
-          </h2>
-          <p className="text-sm md:text-lg md:text-gray-500 mb-6 text-center md:text-left">
-            Tell us about your veterinary practice
-          </p>
+            <h2 className="text-2xl md:text-4xl md:font-bold mb-2 text-center md:text-left">
+              Onboarding Details
+            </h2>
+            <p className="text-sm md:text-lg md:text-gray-500 mb-6 text-center md:text-left">
+              Tell us about your veterinary practice
+            </p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">
             {/* Years of Experience */}

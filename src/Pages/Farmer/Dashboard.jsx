@@ -11,9 +11,11 @@ import LivestockTracker from "../../components/LivestockTracker";
 import SensorDataTable from "../../components/SensorDataTable";
 function Dashboard() {
   return (
-    <div className="p-4 md:p-8 bg-white">
+
+    <div className="p-2 md:p-4 bg-white">
+      <h1>Dashboard Overview</h1>
       {/* Stat Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard icon={RegAni} value={"32"} title={"Register Animal"} />
         <StatCard icon={Abnormal} value={"6"} title={"Animal with Abnormal Vitals"} />
         <StatCard icon={attention} value={"6"} title={"Animal 002 needs Attention"} />
@@ -21,19 +23,29 @@ function Dashboard() {
       </div>
 
       {/* Location & Pie Chart */}
-      <div className="mt-10 flex flex-col gap-6 md:flex-row">
-        <div className="w-full h-[300px] md:h-[400px] md:w-7/12">
-          <h1 className="text-xl md:text-2xl font-bold Nunito  mb-4">Animal Location</h1>
-          <LivestockTracker />
-        </div>
-        <div className="w-full md:w-5/12">
-          <h1 className="text-xl md:text-2xl font-bold Nunito mb-4">Recent Statistics</h1>
-          <HealthStatusPieChart />
-        </div>
+<div className="mt-10 flex flex-col gap-6 md:flex-row">
+  {/* Animal Location */}
+  <div className="w-full md:w-7/12">
+    <h1 className="text-xl md:text-2xl font-bold Nunito mb-4">Animal Location</h1>
+    <div className="flex justify-center md:block">
+      <div className="w-[300px] h-[300px] md:w-full md:h-[400px]">
+        <LivestockTracker />
       </div>
+    </div>
+  </div>
+
+  {/* Recent Statistics */}
+  <div className="w-full md:w-5/12">
+    <h1 className="text-xl md:text-2xl font-bold Nunito mb-4">Recent Statistics</h1>
+    <div className="w-full  md:h-[400px] overflow-x-auto">
+      <HealthStatusPieChart />
+    </div>
+  </div>
+</div>
+
 
       {/* Status Table & Device Status */}
-      <div className="mt-10 flex flex-col gap-6 md:flex-row">
+      <div className="mt-10 flex flex-col gap-4 md:flex-row">
         <div className="w-full md:w-7/12">
           <h1 className="text-xl md:text-2xl font-bold Nunito mb-4">Recent Statistics</h1>
           <SensorDataTable/>

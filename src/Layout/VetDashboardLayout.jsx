@@ -2,7 +2,7 @@
 // export default VetD
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import logoo from "../assets/logoo.png"
-import Header from "./Header";
+// import Header from "./Header";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 
@@ -106,7 +106,7 @@ function VetDashboardLayout() {
 
         {/* Page content */}
         <main className="p-4 overflow-auto bg-[#F5F5F5]">
-          <Header title={currentTitle} />
+          {/* <Header title={currentTitle} /> */}
           <Outlet />
         </main>
       </div>

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Mail, Lock } from "lucide-react";
 import logoo from "../../assets/logoo.png";
 import signupbg from "../../assets/signupbg.svg";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function Login() {
 
   const validateLogin = () => {
     if (!loginData.email || !loginData.password) {
-      alert("Please enter both email and password");
+      toast.error("Please enter both email and password.");
       return false;
     }
     return true;
@@ -30,6 +31,8 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateLogin()) {
+      toast.success("Login successful!");
+
       if (userType === "vet") {
         navigate("/vet-dashboard");
       } else {
@@ -72,20 +75,19 @@ export default function Login() {
       <div
         className="block md:hidden w-full h-full absolute bg-cover bg-center -z-10"
         style={{ backgroundImage: `url(${signupbg})` }}
-      >
-        <div className="block md:hidden w-full p-4 flex justify-center">
-          <img src={logoo} alt="Qiwo Farms" className="w-[165px] pt-7" />
-        </div>
+      />
+      <div className="block md:hidden w-full p-4 flex justify-center">
+        <img src={logoo} alt="Qiwo Farms" className="w-[165px] pt-7" />
       </div>
 
       {/* Form Section */}
       <div className="w-full md:w-1/2 flex items-center justify-center p-6 mt-60 md:mt-0">
         <div className="bg-white p-8 rounded-lg shadow-md md:w-full w-[300px]">
           <div className="pl-[2rem]">
-            <h2 className="text-2xl md:text-5xl md:font-bold mb-2 text-center md:text-left">
+            <h2 className="text-2xl font-bold md:text-5xl md:font-bold mb-2 text-center md:text-left">
               {userType === "vet" ? "Vet Login" : "Farmer Login"}
             </h2>
-            <p className="text-xl  md:text-2xl md:text-gray-500 mb-6 text-center md:text-left">
+            <p className="text-xl md:text-2xl md:text-gray-500 mb-6 text-center md:text-left">
               Enter your credentials
             </p>
           </div>

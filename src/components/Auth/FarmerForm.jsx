@@ -1,9 +1,9 @@
-
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Mail, User, MapPin, Lock } from "lucide-react";
 import logoo from "../../assets/logoo.png";
 import authbg from "../../assets/authbg.png";
+import { toast } from "react-toastify";
 
 export default function FarmerSignup() {
   const navigate = useNavigate();
@@ -31,11 +31,11 @@ export default function FarmerSignup() {
       !signupData.password ||
       !signupData.confirmPassword
     ) {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields");
       return false;
     }
     if (signupData.password !== signupData.confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return false;
     }
     return true;
@@ -44,6 +44,7 @@ export default function FarmerSignup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateSignup()) {
+      toast.success("Signup validated!");
       navigate("/farmer-onboarding", { state: { signupData, userType } });
     }
   };
@@ -67,8 +68,7 @@ export default function FarmerSignup() {
         style={{ backgroundImage: `url(${authbg})` }}
       >
         <div className="absolute inset-0 bg-black opacity-50 flex flex-col justify-center items-center">
-          <p className="text-white text-sm md:text-lg">
-          </p>
+          <p className="text-white text-sm md:text-lg"></p>
         </div>
       </div>
 
@@ -83,17 +83,20 @@ export default function FarmerSignup() {
       </div>
 
       {/* Form Section */}
-      <div className="w-full  Poppins md:w-1/2 flex items-center justify-center p-6 mt-60 md:mt-0">
-        <div className="bg-white  p-8 rounded-lg shadow-md   md:w-full  w-[300px]">
+      <div className="w-full Poppins md:w-1/2 flex items-center justify-center p-6 mt-60 md:mt-0">
+        <div className="bg-white p-8 rounded-lg shadow-md md:w-full w-[300px]">
           <div className="md:ml-[6rem] md:mt-[1rem] md:mb-[5rem]">
-                  <h2 className="  text-2xl md:text-5xl md:font-bold mb-2 text-center md:text-left">
-            Create an Account
-          </h2>
-          <p className="text-sm md:text-[20px] md:text-gray-500 mb-6 text-center md:text-left">
-            Register your account
-          </p>
+            <h2 className="text-2xl md:text-5xl md:font-bold mb-2 text-center md:text-left">
+              Create an Account
+            </h2>
+            <p className="text-sm md:text-[20px] md:text-gray-500 mb-6 text-center md:text-left">
+              Register your account
+            </p>
           </div>
-          <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 flex flex-col items-center"
+          >
             {/* Email */}
             <div className={inputContainerStyle}>
               <Mail className={iconStyle} />

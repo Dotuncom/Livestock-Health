@@ -6,9 +6,9 @@ const OurDevices = () => {
   return (
     <div className="flex flex-col md:flex-row md:h-[600px]">
       {/* Left Text Section */}
-      <div className="text-base space-y-3 px-4 md:w-1/2 md:p-[100px] md:space-y-[4rem]">
-        <h1 className="font-bold md:text-5xl">Introduction to Our Device</h1>
-        <p className="md:text-[20px] md:leading-[30px]">
+      <div className=" text-center md:text-left text-[13px] px-[53px] space-y-3 px-4 md:w-1/2 md:p-[100px] md:space-y-[4rem]">
+        <h1 className=" mt-[2rem] font-bold Poppins md:text-4xl text-[18px] md:text-5xl">Introduction to Our Device</h1>
+        <p className="md:text-xl  mb-[20px] w-[270px] md:w-full  md:leading-loose mt-[28px] Inter leading-[20px] ">
           QiwoFarms is a durable device designed to monitor your livestock’s vital health signs — 
           specifically body temperature, motion, heart rate, and location in real time. By closely 
           tracking these critical indicators, QiwoFarms helps farmers detect early signs of illness 

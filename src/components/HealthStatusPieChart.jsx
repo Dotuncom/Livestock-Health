@@ -22,7 +22,7 @@ const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent
 
 export default function HealthPieChart() {
   return (
-    <div className="w-full h-[300px] md:h-[400px]">
+    <div className="md:w-full h-[300px] md:h-full">
       <ResponsiveContainer>
         <PieChart>
           <Pie

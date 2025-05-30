@@ -1,9 +1,9 @@
-
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Mail, User, MapPin, Lock } from "lucide-react";
 import logoo from "../../assets/logoo.png";
-import signupbg from "../../assets/signupbg.svg";
+import authbg from "../../assets/authbg.png";
+import { toast } from "react-toastify";
 
 export default function FarmerSignup() {
   const navigate = useNavigate();
@@ -31,11 +31,11 @@ export default function FarmerSignup() {
       !signupData.password ||
       !signupData.confirmPassword
     ) {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields");
       return false;
     }
     if (signupData.password !== signupData.confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return false;
     }
     return true;
@@ -44,17 +44,18 @@ export default function FarmerSignup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateSignup()) {
+      toast.success("Signup validated!");
       navigate("/farmer-onboarding", { state: { signupData, userType } });
     }
   };
 
   const inputContainerStyle =
-    "flex items-center border rounded px-3 border-none  md:h-[72px] h-[28px] bg-[#EFEEEE] md:w-[500px] w-[210px]";
+    "flex items-center border rounded px-3 border-none  md:h-[60px] h-[28px] bg-[#EFEEEE] md:w-[500px] w-[210px]";
 
   const iconStyle = "text-gray-400 md:w-6 md:h-6 w-4 h-4";
 
   const inputStyle =
-    "flex-1 bg-transparent focus:outline-none pl-3 text-base md:text-2xl placeholder:text-sm md:placeholder:text-2xl";
+    "flex-1 bg-transparent  h-full w-full focus:outline-none pl-3 text-base md:text-2xl placeholder:text-sm md:placeholder:text-2xl";
 
   const buttonStyle =
     "md:w-[500px] w-[210px] md:h-[72px] h-[28px] bg-green-800 text-white rounded hover:bg-green-900 text-base md:text-2xl font-semibold";
@@ -64,19 +65,17 @@ export default function FarmerSignup() {
       {/* Desktop Background */}
       <div
         className="hidden md:block md:w-1/2 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${signupbg})` }}
+        style={{ backgroundImage: `url(${authbg})` }}
       >
         <div className="absolute inset-0 bg-black opacity-50 flex flex-col justify-center items-center">
-          <p className="text-white text-sm md:text-lg">
-            Your partner in livestock health
-          </p>
+          <p className="text-white text-sm md:text-lg"></p>
         </div>
       </div>
 
       {/* Mobile background + logo */}
       <div
         className="block md:hidden w-full h-full absolute bg-cover bg-center -z-10"
-        style={{ backgroundImage: `url(${signupbg})` }}
+        style={{ backgroundImage: `url(${authbg})` }}
       >
         <div className="block md:hidden w-full p-4 flex justify-center">
           <img src={logoo} alt="Qiwo Farms" className="w-[165px] pt-7" />
@@ -84,15 +83,20 @@ export default function FarmerSignup() {
       </div>
 
       {/* Form Section */}
-      <div className="w-full md:w-1/2 flex items-center justify-center p-6 mt-60 md:mt-0">
-        <div className="bg-white p-8 rounded-lg shadow-md  md:w-full  w-[300px]">
-          <h2 className="  text-2xl md:text-5xl md:font-bold mb-2 text-center md:text-left">
-            Create an Account
-          </h2>
-          <p className="text-sm md:text-lg md:text-gray-500 mb-6 text-center md:text-left">
-            Register your account
-          </p>
-          <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">
+      <div className="w-full Poppins md:w-1/2 flex items-center justify-center p-6 mt-60 md:mt-0">
+        <div className="bg-white p-8 rounded-lg shadow-md md:w-full w-[300px]">
+          <div className="md:ml-[6rem] md:mt-[1rem] md:mb-[5rem]">
+            <h2 className="text-2xl md:text-5xl md:font-bold mb-2 text-center md:text-left">
+              Create an Account
+            </h2>
+            <p className="text-sm md:text-[20px] md:text-gray-500 mb-6 text-center md:text-left">
+              Register your account
+            </p>
+          </div>
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 flex flex-col items-center"
+          >
             {/* Email */}
             <div className={inputContainerStyle}>
               <Mail className={iconStyle} />

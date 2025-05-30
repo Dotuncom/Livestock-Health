@@ -4,7 +4,7 @@ const ClientReviewCard = ({text, profile, name, location, ratings}) => {
   return (
     
 <div className='rounded-[20px] w-[288px] h-[205px] md:px-[35px] bg-white py-[30px] md:w-[384px] md:max-h-[273px]'>
-  <div className='w-[240px] h-[101px] text-[13px] Inter font-medium  md:w-[344px] md:text-[15px] leading-[16px]'>
+  <div className='md:w-[300px]  p-[1rem] h-[101px] text-[13px] Inter font-medium  md:text-[15px] leading-[16px]'>
     <p>
       {text}
     </p>

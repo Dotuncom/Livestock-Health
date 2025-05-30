@@ -1,7 +1,9 @@
+
 import React, { useState, useRef } from "react";
 import signupbg from "../../assets/signupbg.svg";
 import logoo from "../../assets/logoo.png";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const OTPVerification = () => {
   const navigate = useNavigate();
@@ -9,8 +11,6 @@ const OTPVerification = () => {
   const { userType } = location.state || {};
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [error, setError] = useState("");
-
   const inputsRef = useRef([]);
 
   const handleChange = (index, value) => {
@@ -35,11 +35,11 @@ const OTPVerification = () => {
     e.preventDefault();
     const otpCode = otp.join("");
     if (otpCode.length !== 6) {
-      setError("Please enter a 6-digit OTP.");
+      toast.error("Please enter a 6-digit OTP.");
       return;
     }
 
-    alert(`OTP Verified for ${userType || "user"}! Proceeding...`);
+    toast.success(`OTP Verified for ${userType || "user"}! Proceeding...`);
 
     if (userType === "farmer") {
       navigate("/farmer-dashboard");
@@ -60,9 +60,9 @@ const OTPVerification = () => {
         style={{ backgroundImage: `url(${logoo})` }}
       ></div>
 
-      <div className="w-full max-w-[500px] md:h-[400px] h-[420px] absolute md:relative bottom-0 bg-stone-900/70 rounded-t-[30px] md:rounded-[30px] flex flex-col items-center justify-center text-white px-6 md:px-10 shadow-lg">
-        <h2 className="text-2xl md:text-4xl font-semibold text-center mb-4 leading-tight">
-          Enter OTP
+      <div className="w-full max-w-[500px] md:h-[400px] h-[420px] absolute md:relative bottom-0 md:pt-[37px] bg-stone-900/70 rounded-t-[30px] md:rounded-[30px] flex flex-col items-center justify-center text-white px-6 md:px-10 shadow-lg">
+        <h2 className="text-2xl md:text-[50px] font-semibold text-center mb-4 leading-tight">
+          Verify Your Account
         </h2>
         <p className="text-2xl text-center text-neutral-300 mb-6 leading-relaxed">
           Please enter the 6-digit code sent to your registered{" "}
@@ -91,22 +91,13 @@ const OTPVerification = () => {
             ))}
           </div>
 
-          {error && <p className="text-red-500 mb-4">{error}</p>}
-
           <button
             type="submit"
-            className="w-full h-[58px]  bg-green-700 hover:bg-green-800 text-white rounded-2xl font-semibold text-xl transition-all"
+            className="w-full h-[58px]  bg-[#1D4719] hover:bg-green-800 text-white rounded-2xl font-semibold text-xl transition-all"
           >
             Verify OTP
           </button>
         </form>
-
-        <button
-          onClick={() => navigate(-1)}
-          className="mt-4 w-full h-[58px] bg-transparent rounded-2xl outline outline-1 outline-white hover:bg-white hover:text-black text-white font-semibold text-xl transition-all"
-        >
-          Back
-        </button>
       </div>
     </div>
   );

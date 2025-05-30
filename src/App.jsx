@@ -4,9 +4,11 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Layout from "./Pages/Layout";
 import Homepage from "./Pages/Homepage";
-import SignUp from "./components/Auth/SignUp";
 import Login from "./components/Auth/Login";
 import Otp from "./components/Auth/Otp";
 import Dashboard from "./Pages/Farmer/Dashboard";
@@ -31,6 +33,7 @@ import Farmer from "./Pages/vet/Farmer";
 import Messages from "./Pages/vet/Messages";
 import FarmerReport from "./Pages/vet/FarmerReport";
 import Appointment from "./Pages/vet/Appointment";
+import VetDashboard from "./Pages/vet/VetDashboard";
 import VetAlert from "./Pages/vet/VetAlert";
 
 const router = createBrowserRouter(
@@ -41,39 +44,52 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/role-selection" element={<RoleSelection />} />
       <Route path="/farmer-form" element={<FarmerForm />} />
-      <Route path="farmer-onboarding" element={<FarmerOnboarding/>}/>
-      <Route path='/vet-form' element={<VetForm/>}/>
-      <Route path='/vet-onboarding' element={<VetOnboarding/>}/>
+      <Route path="farmer-onboarding" element={<FarmerOnboarding />} />
+      <Route path="/vet-form" element={<VetForm />} />
+      <Route path="/vet-onboarding" element={<VetOnboarding />} />
       <Route path="/login" element={<Login />} />
       <Route path="/otp" element={<Otp />} />
       <Route element={<DashboardLayout />}>
         <Route path="/farmer-dashboard" element={<Dashboard />} />
         <Route path="/animal" element={<Animals />} />
-        <Route path="/animal-profile/:id"  element={<AnimalProfile />} />
+        <Route path="/animal-profile/:id" element={<AnimalProfile />} />
         <Route path="/reports" element={<Report />} />
         <Route path="/devices" element={<Devices />} />
         <Route path="/alerts" element={<Alert />} />
-        <Route path="/vet-profile/:id" vet element={<VetProfile/>}/>
-        <Route path='/vet' element={<Vet/>}/>
-        <Route path='/book-appointment/:id' element ={<BookAppointment/>}/>
+        <Route path="/vet-profile/:id" vet element={<VetProfile />} />
+        <Route path="/vet" element={<Vet />} />
+        <Route path="/book-appointment/:id" element={<BookAppointment />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
-      {/* {vetdashboard } */}
-      <Route element={<VetDashboardLayout/>}>
-      <Route path='/appointment' element={<Appointment/>}/>
-      <Route path="/vet-dashboard" element={<vetDashboard />} />
-      <Route path='/farmer' element={<Farmer/>}/>
-      <Route path='/messages' element={<Messages/>}/>
-      <Route path='/vet-alerts' element={<VetAlert/>}/>
-      <Route path='/farmer-report' element={<FarmerReport/>}/>
+      {/* Vet Dashboard */}
+      <Route element={<VetDashboardLayout />}>
+        <Route path="/appointment" element={<Appointment />} />
+        <Route path="/vet-dashboard" element={<VetDashboard />} />
+        <Route path="/farmer" element={<Farmer />} />
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/vet-alerts" element={<VetAlert />} />
+        <Route path="/farmer-report" element={<FarmerReport />} />
       </Route>
-
     </Route>
   )
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
+    </>
+  );
 }
 
 export default App;

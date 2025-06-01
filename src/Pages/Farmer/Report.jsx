@@ -1,4 +1,4 @@
-// import TemperatureTrendChart from '../../components/TemperatureTrendChart';
+//src/Pages/Farmer/Report.jsx
 // import HeartTrendChart from '../../components/HeartTrendChart';
 // import HealthPieChart from '../../components/HealthStatusPieChart';
 // import SensorDataTable from '../../components/SensorDataTable';

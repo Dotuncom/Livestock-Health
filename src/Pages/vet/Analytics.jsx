@@ -14,21 +14,21 @@ const Analytics = () => {
   { id: 'cow-003', name: 'Spotty', tag: '003-C' },
 ];
 
-const sampleAnimal = {
-  id: 'cow-001',
-  name: 'Bessie',
-  tag: '001-A',
-  breed: 'Friesian',
-  age: 4,
-  weight: 520,
-  lastCheck: '2025-05-28',
-  vaccinated: true,
-  status: 'Pregnant',
-};
-const selectedAnimal = animals.find(a => a.id === selectedAnimalId);
+// const sampleAnimal = {
+//   id: 'cow-001',
+//   name: 'Bessie',
+//   tag: '001-A',
+//   breed: 'Friesian',
+//   age: 4,
+//   weight: 520,
+//   lastCheck: '2025-05-28',
+//   vaccinated: true,
+//   status: 'Pregnant',
+// };
+// const selectedAnimal = animals.find(a => a.id === selectedAnimalId);
 
    const [selectedTab, setSelectedTab] = useState('Temperature');
-   const [selectedAnimalId, setSelectedAnimalId] = useState(animals[0].id);
+  //  const [selectedAnimalId, setSelectedAnimalId] = useState(animals[0].id);
    
   return (
 
@@ -52,12 +52,12 @@ const selectedAnimal = animals.find(a => a.id === selectedAnimalId);
     {selectedTab === 'Heart Rate' && <HeartbeatTrendChart/>}
     {/* {selectedTab === 'Motion' && < />} */}
   </div>
-  <AnimalSelector
+  {/* <AnimalSelector
   animals={animals}
   selectedAnimalId={selectedAnimalId}
   onChange={setSelectedAnimalId}
-/>
-<AnimalStatsTable animal={selectedAnimal} />
+/> */}
+{/* <AnimalStatsTable animal={selectedAnimal} /> */}
     </section>
   );
 };

@@ -57,11 +57,7 @@ function VetDashboardLayout() {
             <span>Appointment</span>
           </NavLink>
 
-          <NavLink to="/messages" className={navClasses} onClick={handleNavClick}>
-            <Icon icon="mdi:message-text-outline" className="h-[24px] w-[24px]" />
-            <span>Messages</span>
-          </NavLink>
-
+         
           <NavLink to="/alerts" className={navClasses} onClick={handleNavClick}>
             <Icon icon="mdi:bell-alert-outline" className="h-[24px] w-[24px]" />
             <span>Alert</span>
@@ -72,10 +68,7 @@ function VetDashboardLayout() {
             <span>Analytics</span>
           </NavLink>
 
-          <NavLink to="/settings" className={navClasses} onClick={handleNavClick}>
-            <Icon icon="mdi:cog-outline" className="h-[24px] w-[24px]" />
-            <span>Settings</span>
-          </NavLink>
+         
 
           <NavLink to="/vetmain-profile" className={navClasses} onClick={handleNavClick}>
             <Icon icon="mdi:account-circle-outline" className="h-[24px] w-[24px]" />

@@ -17,7 +17,7 @@ import Animals from "./Pages/Farmer/Animals";
 import Report from "./Pages/Farmer/Report";
 import Devices from "./Pages/Farmer/Devices";
 import Alert from "./Pages/Farmer/Alert";
-import Profile from "./Pages/Farmer/Profile";
+import FarmerProfile from "./Pages/Farmer/FarmerProfile";
 import Location from "./Pages/Farmer/Location";
 import AnimalProfile from "./components/AnimalProfile";
 import RoleSelection from "./components/Auth/RoleSelection";
@@ -31,18 +31,18 @@ import Vet from "./Pages/Farmer/Vet";
 import VetProfile from "./components/VetProfile";
 import Farmer from "./Pages/vet/Farmer";
 import Messages from "./Pages/vet/Messages";
-import FarmerReport from "./Pages/vet/FarmerReport";
 import Appointment from "./Pages/vet/Appointment";
 import VetDashboard from "./Pages/vet/VetDashboard";
 import VetAlert from "./Pages/vet/VetAlert";
+import Analytics from "./Pages/vet/Analytics";
+import VetMainProfile from "./Pages/vet/VetMainProfile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route element={<Layout />}>
         <Route path="/" element={<Homepage />} />
-      </Route>
-      <Route path="/role-selection" element={<RoleSelection />} />
+      </Route>     <Route path="/role-selection" element={<RoleSelection />} />
       <Route path="/farmer-form" element={<FarmerForm />} />
       <Route path="farmer-onboarding" element={<FarmerOnboarding />} />
       <Route path="/vet-form" element={<VetForm />} />
@@ -56,10 +56,10 @@ const router = createBrowserRouter(
         <Route path="/reports" element={<Report />} />
         <Route path="/devices" element={<Devices />} />
         <Route path="/alerts" element={<Alert />} />
-        <Route path="/vet-profile/:id" vet element={<VetProfile />} />
         <Route path="/vet" element={<Vet />} />
-        <Route path="/book-appointment/:id" element={<BookAppointment />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/vet-profile/:id" vet element={<VetProfile />} />
+        <Route path="/vet-profile/:id/book" element={<BookAppointment />} />
+        <Route path="/farmer-profile" element={<FarmerProfile />} />
       </Route>
       {/* Vet Dashboard */}
       <Route element={<VetDashboardLayout />}>
@@ -68,7 +68,8 @@ const router = createBrowserRouter(
         <Route path="/farmer" element={<Farmer />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/vet-alerts" element={<VetAlert />} />
-        <Route path="/farmer-report" element={<FarmerReport />} />
+        <Route path="/analytics" element={<Analytics/>}/>
+        <Route path='vetmain-profile' element={<VetMainProfile/>}/>
       </Route>
     </Route>
   )

@@ -64,10 +64,8 @@ export default function Login() {
         className="hidden md:block md:w-1/2 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${signupbg})` }}
       >
-        <div className="absolute inset-0 bg-black opacity-50 flex flex-col justify-center items-center">
-          <p className="text-white text-sm md:text-lg">
-            Your partner in livestock health
-          </p>
+        <div className="absolute flex flex-col justify-center items-center">
+         
         </div>
       </div>
 
@@ -83,7 +81,7 @@ export default function Login() {
       {/* Form Section */}
       <div className="w-full md:w-1/2 flex items-center justify-center p-6 mt-60 md:mt-0">
         <div className="bg-white p-8 rounded-lg shadow-md md:w-full w-[300px]">
-          <div className="pl-[2rem]">
+          <div className="pl-[4rem]">
             <h2 className="text-2xl font-bold md:text-5xl md:font-bold mb-2 text-center md:text-left">
               {userType === "vet" ? "Vet Login" : "Farmer Login"}
             </h2>

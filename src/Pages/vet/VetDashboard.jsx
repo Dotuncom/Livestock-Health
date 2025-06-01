@@ -1,4 +1,6 @@
 import React from "react";
+import RecentReports from "../../components/RecentReport";
+import FarmerActivityLog from "../../components/FarmerActivityLog";
 import FarmerSummaryCard from '../../components/FarmerSummaryCard'
 const VetDashboard = () => {
   
@@ -18,17 +20,13 @@ const VetDashboard = () => {
       count: 4,
       icon: "mdi:chart-bar",
     },
-    {
-      title: "Farmers",
-      count:5,
-      icon: "mdi:account-group",
-    },
+    
   ];
 
   return (
     <div className="p-6  min-h-screen">
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1  md:grid-cols-3 gap-4 mb-8">
         {summaryCards.map((card, idx) => (
           <FarmerSummaryCard
             key={idx}
@@ -39,7 +37,10 @@ const VetDashboard = () => {
         ))}
       </div>
 
-      {/* More components like FarmerList will go here */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <FarmerActivityLog />
+        <RecentReports />
+      </div>
     </div>
   );
 };

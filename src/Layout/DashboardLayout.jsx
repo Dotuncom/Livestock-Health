@@ -206,7 +206,7 @@ function DashboardLayout() {
             <span>Vet</span>
           </NavLink>
 
-          <NavLink to="/profile" className={navClasses} onClick={handleNavClick}>
+          <NavLink to="/farmer-profile" className={navClasses} onClick={handleNavClick}>
             <Icon icon="mdi:account-circle-outline" className="h-[24px] w-[24px]" />
             <span>Profile</span>
           </NavLink>

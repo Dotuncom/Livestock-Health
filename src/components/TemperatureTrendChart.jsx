@@ -12,7 +12,7 @@ const data = [
 
 export default function TemperatureTrendChart() {
   return (
-    <div className="w-[200px] h-[300px] md:h-[400px]">
+    <div className="w-[350px] h-[300px] md:h-[400px]">
       <ResponsiveContainer>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />

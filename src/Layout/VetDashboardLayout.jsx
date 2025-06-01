@@ -1,33 +1,24 @@
-
-// export default VetD
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import logoo from "../assets/logoo.png"
-// import Header from "./Header";
+import logoo from "../assets/logoo.png";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function VetDashboardLayout() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [open]);
+
   const navClasses = ({ isActive }) =>
     `flex items-center space-x-[15px] px-4 py-2 rounded transition-colors ${
       isActive ? "bg-green-700 text-white font-bold" : "hover:bg-[#3A7D34]"
     }`;
-
-  const getTitle = (pathname) => {
-    if (pathname.includes('/vet-dashboard')) return 'Dashboard Overview';
-    if (pathname.includes('/farmer')) return 'Farmer';
-    if (pathname.includes('/appointment')) return 'Appointment';
-    if (pathname.includes('/messages')) return 'Messages';
-    if (pathname.includes('/alerts')) return 'Alerts';
-    if (pathname.includes('/reports')) return 'Reports';
-    if (pathname.includes('/settings')) return 'Settings';
-    if (pathname.includes('/profile')) return 'Profile';
-    return 'Dashboard';
-  };
-
-  const currentTitle = getTitle(location.pathname);
 
   const handleNavClick = () => {
     if (window.innerWidth < 768) {
@@ -39,8 +30,9 @@ function VetDashboardLayout() {
     <div className="flex h-screen">
       {/* Sidebar */}
       <aside
-        className={`bg-[#1D4719] text-white md:max-w-68 flex-shrink-0 text-[18px]
-        fixed md:relative z-50 transform transition-transform duration-200
+        className={`bg-[#1D4719] text-white md:max-w-60 flex-shrink-0 text-[18px]
+        fixed md:relative z-50 transform top-0 left-0 h-full w-[250px]
+        transition-transform duration-300 ease-in-out
         ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
         <img
@@ -65,27 +57,20 @@ function VetDashboardLayout() {
             <span>Appointment</span>
           </NavLink>
 
-          <NavLink to="/messages" className={navClasses} onClick={handleNavClick}>
-            <Icon icon="mdi:message-text-outline" className="h-[24px] w-[24px]" />
-            <span>Messages</span>
-          </NavLink>
-
+         
           <NavLink to="/alerts" className={navClasses} onClick={handleNavClick}>
             <Icon icon="mdi:bell-alert-outline" className="h-[24px] w-[24px]" />
             <span>Alert</span>
           </NavLink>
 
-          <NavLink to="/reports" className={navClasses} onClick={handleNavClick}>
+          <NavLink to="/analytics" className={navClasses} onClick={handleNavClick}>
             <Icon icon="mdi:chart-box-outline" className="h-[24px] w-[24px]" />
-            <span>Reports</span>
+            <span>Analytics</span>
           </NavLink>
 
-          <NavLink to="/settings" className={navClasses} onClick={handleNavClick}>
-            <Icon icon="mdi:cog-outline" className="h-[24px] w-[24px]" />
-            <span>Settings</span>
-          </NavLink>
+         
 
-          <NavLink to="/profile" className={navClasses} onClick={handleNavClick}>
+          <NavLink to="/vetmain-profile" className={navClasses} onClick={handleNavClick}>
             <Icon icon="mdi:account-circle-outline" className="h-[24px] w-[24px]" />
             <span>Profile</span>
           </NavLink>
@@ -98,15 +83,25 @@ function VetDashboardLayout() {
         <div className="bg-green-900 text-white p-4 flex justify-between items-center md:hidden">
           <img className="h-[40px] w-[40px]" src={logoo} alt="Logo" />
           <div className="flex items-center space-x-4">
-            <button onClick={() => setOpen(!open)} className="focus:outline-none">
-              =
+            {/* Notifications */}
+            <button className="relative focus:outline-none" aria-label="Notifications">
+              <Icon icon="mdi:bell-outline" className="h-6 w-6" />
+              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600"></span>
+            </button>
+
+            {/* Hamburger Icon */}
+            <button
+              onClick={() => setOpen(!open)}
+              className="focus:outline-none"
+              aria-label="Toggle menu"
+            >
+              <Icon icon={open ? "mdi:close" : "mdi:menu"} className="h-9 w-9" />
             </button>
           </div>
         </div>
 
         {/* Page content */}
-        <main className="p-4 overflow-auto bg-[#F5F5F5]">
-          {/* <Header title={currentTitle} /> */}
+        <main className="p-2 overflow-auto bg-[#F5F5F5]">
           <Outlet />
         </main>
       </div>

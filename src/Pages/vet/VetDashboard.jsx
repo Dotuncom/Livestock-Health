@@ -22,7 +22,7 @@ const VetDashboard = () => {
   ];
 
   return (
-    <div className="px-[70px] space-y-6">
+    <div className="px-[40px] space-y-6">
       <h1 className=" md:text-4xl font-bold">Dashboard Overview</h1>
       {/* Summary Cards */}
       <div className="grid grid-cols-1  md:grid-cols-3 gap-10 mb-8">

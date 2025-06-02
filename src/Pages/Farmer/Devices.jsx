@@ -3,10 +3,9 @@ import DeviceStatusTable from "../../components/DeviceStatusTable";
 
 const Devices = () => {
   return (
-    <div className=" flex  justify-center bg-white rounded-[10px] p-[80px] max-h-full">
-    
-      <DeviceStatusTable/>
-    </div>
+    <main className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <DeviceStatusTable />
+    </main>
   );
 };
 

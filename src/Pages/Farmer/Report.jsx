@@ -50,35 +50,36 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="p-2 md:p-6 space-y-6 bg-white min-h-screen overflow-x-hidden max-w-screen">
+    <div className="px-8 md:p-6 space-y-6 bg-white min-h-screen overflow-x-hidden max-w-screen">
       <h1 className="text-xl md:text-2xl font-bold">LiveStock Health Report</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-9 md:gap-6">
         {/* Health Distribution */}
-        <div className="bg-[#f8f9fa] w-full rounded-lg p-4 shadow min-h-[300px] md:min-h-[350px] flex flex-col">
-          <h2 className="font-semibold text-lg md:text-xl mb-3">Health Distribution</h2>
-          <div className="flex-grow">
-            <HealthPieChart width={300} height={280} />
+        <div className="bg-[#f8f9fa] w-full rounded-lg p-4 shadow flex flex-col space-y-2">
+          <h2 className="font-semibold text-lg md:text-xl">Health Distribution</h2>
+          <div className="w-full h-[250px] md:h-[300px]">
+            <HealthPieChart />
           </div>
         </div>
 
         {/* Temperature Trend */}
-        <div className="bg-[#f8f9fa] w-full rounded-lg p-4 shadow min-h-[300px] md:min-h-[350px] flex flex-col">
-          <h2 className="font-semibold text-lg md:text-xl mb-3">Temperature Trend</h2>
-          <div className="flex-grow">
-            <TemperatureTrendChart width={300} height={280} />
+        <div className="bg-[#f8f9fa] w-full rounded-lg p-4 shadow flex flex-col space-y-2">
+          <h2 className="font-semibold text-lg md:text-xl">Temperature Trend</h2>
+          <div className="w-full h-[250px] md:h-[300px]">
+            <TemperatureTrendChart />
           </div>
         </div>
 
         {/* Heartbeat Trend */}
-        <div className="bg-[#f8f9fa] w-full rounded-lg p-4 shadow min-h-[300px] md:min-h-[350px] flex flex-col">
-          <h2 className="font-semibold text-lg md:text-xl mb-3">Heartbeat Trend</h2>
-          <div className="flex-grow">
-            <HeartTrendChart width={300} height={280} />
+        <div className="bg-[#f8f9fa] w-full rounded-lg p-4 shadow flex flex-col space-y-2">
+          <h2 className="font-semibold text-lg md:text-xl">Heartbeat Trend</h2>
+          <div className="w-full h-[250px] md:h-[300px]">
+            <HeartTrendChart />
           </div>
         </div>
       </div>
 
+      {/* Sensor Data */}
       <div className="p-2 md:p-6 space-y-6 bg-white">
         <h1 className="text-xl md:text-2xl font-bold">Sensor Data Overview</h1>
         <SensorDataTable data={dummyData} />
@@ -86,3 +87,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

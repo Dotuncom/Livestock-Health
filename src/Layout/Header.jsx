@@ -4,11 +4,11 @@ import notification from '../assets/notification.png';
 
 function Header({title}) {
   return (
-    <div className="hidden md:flex space-x-[63px] justify-between h-[131px]  items-center pt-[20px] pb-[20px]  pr-[139px] mb-[39px]">
+    <div className="hidden md:flex space-x-[63px] justify-between h-[180px] bg-white items-center pt-[20px] pb-[20px]  pr-[139px] mb-[39px]">
       <h1 className='text-4xl poppins'>{title}</h1>
       <div className='flex items-center gap-[2rem]'>
      {/* Search Bar */}
-     <div className="relative flex items-center w-[462px] h-[48px] rounded-[50px] pl-[1rem] border border-[#333] bg-white text-2xl shadow-sm">
+     {/* <div className="relative flex items-center w-[462px] h-[48px] rounded-[50px] pl-[1rem] border border-[#333] bg-white text-2xl shadow-sm">
         <img 
           src={search} 
           alt="Search Icon" 
@@ -19,7 +19,7 @@ function Header({title}) {
           placeholder="search..."
           className="w-full h-full bg-transparent rounded-[50px]  outline-none"
         />
-      </div>
+      </div> */}
 
       {/* Notification Icon */}
       <img

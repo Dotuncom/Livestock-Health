@@ -43,3 +43,5 @@ Optional Section (can be skipped or added later)
 
     Profile Preferences
 
+https://cddcvjewdyvkluwxjldb.supabase.co
+api anon :eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkZGN2amV3ZHl2a2x1d3hqbGRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NDI3NjcsImV4cCI6MjA2NDQxODc2N30.bUznwDpAkBzOMDUyoSrtid1tf3s6o1Q1T8nKF1IOQu8

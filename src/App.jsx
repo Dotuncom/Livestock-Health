@@ -36,20 +36,30 @@ import VetDashboard from "./Pages/vet/VetDashboard";
 import VetAlert from "./Pages/vet/VetAlert";
 import Analytics from "./Pages/vet/Analytics";
 import VetMainProfile from "./Pages/vet/VetMainProfile";
+import ProtectedRoute from "./components/ProtectedRoute";
+import VerifyEmail from "./components/Auth/VerifyEmail";
+// import EmailVerifiedRedirect from "./components/Auth/EmailVerifiedRedirect";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
+      {/* Public Routes */}
       <Route element={<Layout />}>
         <Route path="/" element={<Homepage />} />
-      </Route>     <Route path="/role-selection" element={<RoleSelection />} />
+      </Route>
+      <Route path="/role-selection" element={<RoleSelection />} />
       <Route path="/farmer-form" element={<FarmerForm />} />
-      <Route path="farmer-onboarding" element={<FarmerOnboarding />} />
+      <Route path="/farmer-onboarding" element={<FarmerOnboarding />} />
       <Route path="/vet-form" element={<VetForm />} />
       <Route path="/vet-onboarding" element={<VetOnboarding />} />
       <Route path="/login" element={<Login />} />
       <Route path="/otp" element={<Otp />} />
-      <Route element={<DashboardLayout />}>
+      <Route path="/verify-email" element={<VerifyEmail />} />
+    {/* <Route path="/verify-email" element={<EmailVerifiedRedirect />} /> */}
+
+
+      {/* Protected Farmer Routes */}
+      <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
         <Route path="/farmer-dashboard" element={<Dashboard />} />
         <Route path="/animal" element={<Animals />} />
         <Route path="/animal-profile/:id" element={<AnimalProfile />} />
@@ -57,19 +67,20 @@ const router = createBrowserRouter(
         <Route path="/devices" element={<Devices />} />
         <Route path="/alerts" element={<Alert />} />
         <Route path="/vet" element={<Vet />} />
-        <Route path="/vet-profile/:id" vet element={<VetProfile />} />
+        <Route path="/vet-profile/:id" element={<VetProfile />} />
         <Route path="/vet-profile/:id/book" element={<BookAppointment />} />
         <Route path="/farmer-profile" element={<FarmerProfile />} />
       </Route>
-      {/* Vet Dashboard */}
-      <Route element={<VetDashboardLayout />}>
+
+      {/* Protected Vet Routes */}
+      <Route element={<ProtectedRoute><VetDashboardLayout /></ProtectedRoute>}>
         <Route path="/appointment" element={<Appointment />} />
         <Route path="/vet-dashboard" element={<VetDashboard />} />
         <Route path="/farmer" element={<Farmer />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/vet-alerts" element={<VetAlert />} />
-        <Route path="/analytics" element={<Analytics/>}/>
-        <Route path='vetmain-profile' element={<VetMainProfile/>}/>
+        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/vetmain-profile" element={<VetMainProfile />} />
       </Route>
     </Route>
   )

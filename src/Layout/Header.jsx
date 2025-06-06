@@ -3,8 +3,7 @@ import search from '../assets/search.png';
 import notification from '../assets/notification.png';
 
 function Header({title}) {
-  console.log("MEEEE!")
-  return (
+ return (
     <div className="hidden md:flex space-x-[63px] justify-between h-[180px] bg-white items-center pt-[20px] pb-[20px]  pr-[139px] mb-[39px]">
       <h1 className='text-4xl poppins'>{title}</h1>
       <div className='flex items-center gap-[2rem]'>

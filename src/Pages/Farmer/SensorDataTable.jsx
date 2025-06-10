@@ -1,58 +1,120 @@
-const livestockData = [
-  {
-    id: "Cow #001",
-    heartRate: 0,
-    bloodOxygen: "0%",
-    steps: 0,
-    temperature: 0,
-    time: "2025-05-28 09:00",
-  },
-  {
-    id: "Cow #005",
-    heartRate: 88,
-    bloodOxygen: "97%",
-    steps: 1230,
-    temperature: 101.2,
-    time: "2025-05-28 09:05",
-  },
-  {
-    id: "Cow #009",
-    heartRate: 75,
-    bloodOxygen: "91%",
-    steps: 985,
-    temperature: 102.4,
-    time: "2025-05-28 09:06",
-  },
-];
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../../App";
+import { toast } from "react-toastify";
 
 const SensorDataTable = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["sensor_data"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("sensor_data").select("*");
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    },
+    onError: (err) => {
+      toast.error("Error fetching sensor data: " + err.message);
+    },
+  });
+
+  const handleSuccess = () => {
+    toast.success("Sensor data updated successfully!");
+  };
+
+  // Helper function to determine status color
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "healthy":
+        return "text-green-600 bg-green-50";
+      case "at risk":
+        return "text-yellow-600 bg-yellow-50";
+      case "critical":
+        return "text-red-600 bg-red-50";
+      default:
+        return "text-gray-600 bg-gray-50";
+    }
+  };
+
   return (
-    <div className="w-full max-w-full bg-white shadow-md rounded-xl p-4">
-      <div className="overflow-x-auto">
-        <table className="w-full table-auto text-sm text-left border border-gray-300">
-          <thead className="bg-[#1d4719] text-white text-xs uppercase tracking-wider">
-            <tr>
-              <th className="px-4 py-3 border">Animal ID</th>
-              <th className="px-4 py-3 border">Heart Rate (BPM)</th>
-              <th className="px-4 py-3 border">Blood Oxygen (SpO₂)</th>
-              <th className="px-4 py-3 border">Step Count</th>
-              <th className="px-4 py-3 border">Temperature (°F)</th>
-              <th className="px-4 py-3 border">Time</th>
-            </tr>
-          </thead>
-          <tbody className="bg-[#E6E3E3] text-gray-800">
-            {livestockData.map((animal, index) => (
-              <tr key={index} className="hover:bg-gray-100 transition-colors">
-                <td className="px-4 py-2 border font-semibold">{animal.id}</td>
-                <td className="px-4 py-2 border">{animal.heartRate}</td>
-                <td className="px-4 py-2 border">{animal.bloodOxygen}</td>
-                <td className="px-4 py-2 border">{animal.steps}</td>
-                <td className="px-4 py-2 border">{animal.temperature}</td>
-                <td className="px-4 py-2 border text-gray-600">{animal.time}</td>
+    <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="p-4 border-b border-gray-200">
+        <h2 className="text-xl font-semibold">Sensor Data Overview</h2>
+      </div>
+
+      {isLoading ? (
+        <div className="p-4 text-center">Loading sensor data...</div>
+      ) : error ? (
+        <div className="p-4 text-center text-red-600">
+          Error: {error.message}
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Temperature
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Heartbeat
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Steps
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Last Updated
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {data &&
+                data.map((item) => (
+                  <tr key={item.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {item.id}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {item.temperature}°C
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {item.heartbeat} BPM
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {item.steps}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
+                          item.status
+                        )}`}
+                      >
+                        {item.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(item.updated_at).toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <div className="p-4 border-t border-gray-200">
+        <button
+          onClick={handleSuccess}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+        >
+          Refresh Data
+        </button>
       </div>
     </div>
   );

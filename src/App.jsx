@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createClient } from "@supabase/supabase-js";
 
 import Layout from "./Pages/Layout";
 import Homepage from "./Pages/Homepage";
@@ -42,7 +44,8 @@ const router = createBrowserRouter(
     <Route>
       <Route element={<Layout />}>
         <Route path="/" element={<Homepage />} />
-      </Route>     <Route path="/role-selection" element={<RoleSelection />} />
+      </Route>{" "}
+      <Route path="/role-selection" element={<RoleSelection />} />
       <Route path="/farmer-form" element={<FarmerForm />} />
       <Route path="farmer-onboarding" element={<FarmerOnboarding />} />
       <Route path="/vet-form" element={<VetForm />} />
@@ -68,16 +71,24 @@ const router = createBrowserRouter(
         <Route path="/farmer" element={<Farmer />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/vet-alerts" element={<VetAlert />} />
-        <Route path="/analytics" element={<Analytics/>}/>
-        <Route path='vetmain-profile' element={<VetMainProfile/>}/>
+        <Route path="/analytics" element={<Analytics />} />
+        <Route path="vetmain-profile" element={<VetMainProfile />} />
       </Route>
     </Route>
   )
 );
 
+/* Create a supabase client using environment variables */
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+/* Create a QueryClient instance for TanStack Query */
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <ToastContainer
         position="top-right"
@@ -89,8 +100,10 @@ function App() {
         draggable
         theme="colored"
       />
-    </>
+    </QueryClientProvider>
   );
 }
 
+/* Export the supabase client (or a context) so that components can use it for data fetching */
+export { supabase };
 export default App;

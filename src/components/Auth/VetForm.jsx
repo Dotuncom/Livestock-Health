@@ -1,15 +1,16 @@
-
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Mail, User, Stethoscope, Lock } from "lucide-react";
 import logoo from "../../assets/logoo.png";
 import authbg from "../../assets/authbg.png";
 import { toast } from "react-toastify";
+import { supabase } from "../../App";
 
 export default function VetForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const userType = location.state?.userType || "vet";
+  const [isLoading, setIsLoading] = useState(false);
 
   const [signupData, setSignupData] = useState({
     email: "",
@@ -35,18 +36,61 @@ export default function VetForm() {
       toast.error("Passwords do not match");
       return false;
     }
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return false;
+    }
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateSignup()) {
-      navigate("/vet-onboarding", { state: { signupData, userType } });
+    if (!validateSignup()) return;
+
+    setIsLoading(true);
+    try {
+      // Sign up with Supabase
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: signupData.email,
+        password: signupData.password,
+      });
+
+      if (authError) throw authError;
+
+      // Create user profile in the users table
+      const { error: profileError } = await supabase.from("users").insert([
+        {
+          id: authData.user.id,
+          email: signupData.email,
+          name: signupData.name,
+          specialization: signupData.specialization,
+          role: userType,
+        },
+      ]);
+
+      if (profileError) throw profileError;
+
+      toast.success(
+        "Signup successful! Please check your email for verification."
+      );
+      navigate("/vet-onboarding", {
+        state: {
+          signupData: {
+            ...signupData,
+            id: authData.user.id,
+          },
+          userType,
+        },
+      });
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const inputContainerStyle =
-    "flex items-center border-none rounded px-3 bg-[#EFEEEE]   md:h-[72px] h-[28px] md:w-[538px] w-[210px]";
+    "flex items-center border-none rounded px-3 bg-[#EFEEEE] md:h-[72px] h-[28px] md:w-[538px] w-[210px]";
 
   const iconStyle = "text-gray-400 md:w-6 md:h-6 w-4 h-4";
 
@@ -54,7 +98,7 @@ export default function VetForm() {
     "flex-1 bg-transparent focus:outline-none pl-3 text-base md:text-2xl placeholder:text-sm md:placeholder:text-2xl";
 
   const buttonStyle =
-    "md:w-[538px] w-[210px] md:h-[72px] h-[28px] bg-green-800 text-white rounded hover:bg-green-900 text-base md:text-2xl font-semibold";
+    "md:w-[538px] w-[210px] md:h-[72px] h-[28px] bg-green-800 text-white rounded hover:bg-green-900 text-base md:text-2xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed";
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row overflow-x-hidden">
@@ -63,7 +107,7 @@ export default function VetForm() {
         className="hidden md:block md:w-1/2 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${authbg})` }}
       >
-        <div className="absolute  flex flex-col justify-center items-center"></div>
+        <div className="absolute flex flex-col justify-center items-center"></div>
       </div>
 
       {/* Mobile background + logo */}
@@ -77,91 +121,94 @@ export default function VetForm() {
 
       {/* Form Section */}
       <div className="w-full md:w-1/2 flex items-center Poppins justify-center p-6 mt-40 md:mt-0">
-        <div className="bg-white p-8 rounded-lg shadow-md md:w-full w-[300px]">
-          <div className="md:ml-[4.5rem] md:mb-[3rem]">
-            <h2 className="text-2xl  font-bold md:text-4xl md:font-bold mb-2 text-center md:text-left">
-              Create an Account
-            </h2>
-            <p className="text-[xl] md:text-2xl md:text-gray-500 mb-6 text-center md:text-left">
-              Register as a Vet
-            </p>
+        <div className="md:ml-[4.5rem] md:mb-[3rem]">
+          <h2 className="text-2xl font-bold md:text-4xl md:font-bold mb-2 text-center md:text-left">
+            Create an Account
+          </h2>
+          <p className="text-[xl] md:text-2xl md:text-gray-500 mb-6 text-center md:text-left">
+            Register as a Vet
+          </p>
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 flex flex-col items-center"
+        >
+          {/* Email */}
+          <div className={inputContainerStyle}>
+            <Mail className={iconStyle} />
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter Email"
+              value={signupData.email}
+              onChange={handleChange}
+              className={inputStyle}
+              disabled={isLoading}
+            />
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-4 flex flex-col items-center"
-          >
-            {/* Email */}
-            <div className={inputContainerStyle}>
-              <Mail className={iconStyle} />
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter Email"
-                value={signupData.email}
-                onChange={handleChange}
-                className={inputStyle}
-              />
-            </div>
+          {/* Name */}
+          <div className={inputContainerStyle}>
+            <User className={iconStyle} />
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={signupData.name}
+              onChange={handleChange}
+              className={inputStyle}
+              disabled={isLoading}
+            />
+          </div>
 
-            {/* Name */}
-            <div className={inputContainerStyle}>
-              <User className={iconStyle} />
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={signupData.name}
-                onChange={handleChange}
-                className={inputStyle}
-              />
-            </div>
+          {/* Specialization */}
+          <div className={inputContainerStyle}>
+            <Stethoscope className={iconStyle} />
+            <input
+              type="text"
+              name="specialization"
+              placeholder="Specialization"
+              value={signupData.specialization}
+              onChange={handleChange}
+              className={inputStyle}
+              disabled={isLoading}
+            />
+          </div>
 
-            {/* Specialization */}
-            <div className={inputContainerStyle}>
-              <Stethoscope className={iconStyle} />
-              <input
-                type="text"
-                name="specialization"
-                placeholder="Specialization"
-                value={signupData.specialization}
-                onChange={handleChange}
-                className={inputStyle}
-              />
-            </div>
+          {/* Password */}
+          <div className={inputContainerStyle}>
+            <Lock className={iconStyle} />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={signupData.password}
+              onChange={handleChange}
+              className={inputStyle}
+              disabled={isLoading}
+            />
+          </div>
 
-            {/* Password */}
-            <div className={inputContainerStyle}>
-              <Lock className={iconStyle} />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={signupData.password}
-                onChange={handleChange}
-                className={inputStyle}
-              />
-            </div>
+          {/* Confirm Password */}
+          <div className={inputContainerStyle}>
+            <Lock className={iconStyle} />
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={signupData.confirmPassword}
+              onChange={handleChange}
+              className={inputStyle}
+              disabled={isLoading}
+            />
+          </div>
 
-            {/* Confirm Password */}
-            <div className={inputContainerStyle}>
-              <Lock className={iconStyle} />
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={signupData.confirmPassword}
-                onChange={handleChange}
-                className={inputStyle}
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button type="submit" className={buttonStyle}>
-              Next
-            </button>
-          </form>
-        </div>
+          {/* Submit Button */}
+          <button type="submit" className={buttonStyle} disabled={isLoading}>
+            {isLoading ? "Creating Account..." : "Next"}
+          </button>
+        </form>
       </div>
     </div>
   );

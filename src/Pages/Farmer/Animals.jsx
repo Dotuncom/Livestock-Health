@@ -2,6 +2,9 @@ import React, { useState, useMemo } from "react";
 import AnimalCard from "../../components/AnimalCard";
 import AddAnimalModal from "../../components/AddAnimalModal";
 import EditAnimalModal from "../../components/EditAnimalModal";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../../App";
+import { toast } from "react-toastify";
 
 const initialAnimals = [
   {
@@ -96,6 +99,26 @@ export default function AnimalDashboard() {
     setAnimals((prev) => prev.filter((a) => a.id !== id));
   };
 
+  // Example query (fetch livestock data) using TanStack Query
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["livestock"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("livestock").select("*");
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    },
+    onError: (err) => {
+      toast.error("Error fetching livestock data: " + err.message);
+    },
+  });
+
+  // Example: a button (or a function) that triggers a success toast
+  const handleSuccess = () => {
+    toast.success("Livestock data updated successfully!");
+  };
+
   return (
     <div className="p-6">
       {/* Filters */}
@@ -175,7 +198,9 @@ export default function AnimalDashboard() {
       {/* View All button centered */}
       <div className="mt-6 flex justify-center">
         <button
-          onClick={() => setFilters({ species: "", gender: "", deviceStatus: "" })}
+          onClick={() =>
+            setFilters({ species: "", gender: "", deviceStatus: "" })
+          }
           className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
         >
           View All
@@ -198,6 +223,26 @@ export default function AnimalDashboard() {
           animal={editingAnimal}
         />
       )}
+
+      {/* Render livestock data using TanStack Query */}
+      <div className="mt-6 p-2 md:p-4 bg-white">
+        <h1>Animals Overview</h1>
+        {isLoading ? (
+          <p>Loading livestock data…</p>
+        ) : error ? (
+          <p>Error: {error.message}</p>
+        ) : (
+          <ul>
+            {data &&
+              data.map((item) => (
+                <li key={item.id}>
+                  {item.name} (Status: {item.status})
+                </li>
+              ))}
+          </ul>
+        )}
+        <button onClick={handleSuccess}>Simulate Update</button>
+      </div>
     </div>
   );
 }

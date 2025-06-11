@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@iconify/react": "^6.0.0",
+    "@supabase/supabase-js": "^2.50.0",
     "@tailwindcss/vite": "^4.1.5",
+    "@tanstack/react-query": "^5.80.6",
     "chart.js": "^4.4.9",
+    "date-fns": "^4.1.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.511.0",
     "react": "^19.0.0",

@@ -57,7 +57,6 @@
 //             <span>Appointment</span>
 //           </NavLink>
 
-         
 //           <NavLink to="/Vet-alerts" className={navClasses} onClick={handleNavClick}>
 //             <Icon icon="mdi:bell-alert-outline" className="h-[24px] w-[24px]" />
 //             <span>Alert</span>
@@ -67,8 +66,6 @@
 //             <Icon icon="mdi:chart-box-outline" className="h-[24px] w-[24px]" />
 //             <span>Analytics</span>
 //           </NavLink>
-
-         
 
 //           <NavLink to="/vetmain-profile" className={navClasses} onClick={handleNavClick}>
 //             <Icon icon="mdi:account-circle-outline" className="h-[24px] w-[24px]" />
@@ -154,35 +151,64 @@ function VetDashboardLayout() {
         />
 
         <nav className="space-y-[18px]">
-          <NavLink to="/vet-dashboard" end className={navClasses} onClick={handleNavClick}>
-            <Icon icon="mdi:view-dashboard-outline" className="h-[24px] w-[24px]" />
+          <NavLink
+            to="/vet-dashboard"
+            end
+            className={navClasses}
+            onClick={handleNavClick}
+          >
+            <Icon
+              icon="mdi:view-dashboard-outline"
+              className="h-[24px] w-[24px]"
+            />
             <span>Dashboard</span>
           </NavLink>
 
-          <NavLink to="/farmer" className={navClasses} onClick={handleNavClick}>
+          <NavLink
+            to="/vet/farmers"
+            className={navClasses}
+            onClick={handleNavClick}
+          >
             <Icon icon="mdi:account-group" className="h-[24px] w-[24px]" />
-            <span>Farmer</span>
+            <span>Farmers</span>
           </NavLink>
 
-          <NavLink to="/appointment" className={navClasses} onClick={handleNavClick}>
+          <NavLink
+            to="/vet/appointments"
+            className={navClasses}
+            onClick={handleNavClick}
+          >
             <Icon icon="mdi:calendar-clock" className="h-[24px] w-[24px]" />
-            <span>Appointment</span>
+            <span>Appointments</span>
           </NavLink>
-          
 
-
-          <NavLink to="/Vet-alerts" className={navClasses} onClick={handleNavClick}>
+          <NavLink
+            to="/vet/alerts"
+            className={navClasses}
+            onClick={handleNavClick}
+          >
             <Icon icon="mdi:bell-alert-outline" className="h-[24px] w-[24px]" />
-            <span>Alert</span>
+            <span>Alerts</span>
           </NavLink>
 
-          <NavLink to="/analytics" className={navClasses} onClick={handleNavClick}>
+          <NavLink
+            to="/vet/analytics"
+            className={navClasses}
+            onClick={handleNavClick}
+          >
             <Icon icon="mdi:chart-box-outline" className="h-[24px] w-[24px]" />
             <span>Analytics</span>
           </NavLink>
 
-          <NavLink to="/vetmain-profile" className={navClasses} onClick={handleNavClick}>
-            <Icon icon="mdi:account-circle-outline" className="h-[24px] w-[24px]" />
+          <NavLink
+            to="/vet/profile"
+            className={navClasses}
+            onClick={handleNavClick}
+          >
+            <Icon
+              icon="mdi:account-circle-outline"
+              className="h-[24px] w-[24px]"
+            />
             <span>Profile</span>
           </NavLink>
         </nav>
@@ -195,7 +221,10 @@ function VetDashboardLayout() {
           <img className="h-[40px] w-[40px]" src={logoo} alt="Logo" />
           <div className="flex items-center space-x-4">
             {/* Notifications */}
-            <button className="relative focus:outline-none" aria-label="Notifications">
+            <button
+              className="relative focus:outline-none"
+              aria-label="Notifications"
+            >
               <Icon icon="mdi:bell-outline" className="h-6 w-6" />
               <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600"></span>
             </button>
@@ -206,7 +235,10 @@ function VetDashboardLayout() {
               className="focus:outline-none"
               aria-label="Toggle menu"
             >
-              <Icon icon={open ? "mdi:close" : "mdi:menu"} className="h-9 w-9" />
+              <Icon
+                icon={open ? "mdi:close" : "mdi:menu"}
+                className="h-9 w-9"
+              />
             </button>
           </div>
         </div>

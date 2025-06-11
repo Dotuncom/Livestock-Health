@@ -1,44 +1,116 @@
 // src/pages/vets-page.jsx
-import VetCard from '../../components/VetCard';
-import ViewMore from '../../components/ViewMore';
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../../App";
+import { toast } from "react-toastify";
 
-export default function Vet() {
-  const vets = [
-    {
-      id: 1,
-      name: 'Vet Didi',
-      image: '/assets/vet1.png',
-      specialty: 'Urban Cattle',
-      address: 'NO 11 Dabo Street Mangu, Plateau State',
-      phone: '+234 701 234 5678',
+const Vet = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["vets"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("role", "vet");
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
     },
-    {
-      id: 2,
-      name: 'Vet Daniel',
-      image: '/assets/vet2.png',
-      specialty: 'Healthy Birds',
-      address: 'No 2 Kurmin Kogi, Kaduna State',
-      phone: '+234 802 123 4567',
+    onError: (err) => {
+      toast.error("Error fetching veterinarian data: " + err.message);
     },
-    {
-      id: 3,
-      name: 'Vet Henry',
-      image: '/assets/vet1.png',
-      specialty: 'Urban Cattle',
-      address: 'No 22 Rayfield Road, Jos Plateau State',
-      phone: '+234 803 987 6543',
-    },
-  ];
+  });
+
+  const handleSuccess = () => {
+    toast.success("Veterinarian data updated successfully!");
+  };
 
   return (
-    <section className="px-4 md:p-8 space-y-6 bg-white">
-      <h1 className="text-xl font-bold">Available Vets</h1>
-      <div className="space-y-4">
-        {vets.map((vet) => (
-          <VetCard key={vet.id} vet={vet} />
-        ))}
+    <div className="p-4 space-y-6 bg-white min-h-screen">
+      <h1 className="text-2xl font-bold">Available Veterinarians</h1>
+
+      <div className="bg-[#f8f9fa] rounded-lg p-6 shadow">
+        {isLoading ? (
+          <p>Loading veterinarian data...</p>
+        ) : error ? (
+          <p>Error: {error.message}</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {data &&
+              data.map((vet) => (
+                <div key={vet.id} className="bg-white p-6 rounded-lg shadow-md">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
+                      {vet.avatar_url ? (
+                        <img
+                          src={vet.avatar_url}
+                          alt={vet.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                          No Image
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-semibold">{vet.name}</h2>
+                      <p className="text-gray-600">
+                        {vet.specialization || "General Veterinarian"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 mb-4">
+                    <p className="text-sm">
+                      <span className="text-gray-600">Location:</span>{" "}
+                      {vet.location || "Not provided"}
+                    </p>
+                    <p className="text-sm">
+                      <span className="text-gray-600">License:</span>{" "}
+                      {vet.license_number || "Not provided"}
+                    </p>
+                    <p className="text-sm">
+                      <span className="text-gray-600">Experience:</span>{" "}
+                      {vet.experience || "Not provided"}
+                    </p>
+                  </div>
+
+                  <div className="flex justify-end space-x-3">
+                    <button
+                      onClick={() =>
+                        toast.info(
+                          "Schedule appointment functionality coming soon"
+                        )
+                      }
+                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm"
+                    >
+                      Schedule Appointment
+                    </button>
+                    <button
+                      onClick={() =>
+                        toast.info("Contact functionality coming soon")
+                      }
+                      className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors text-sm"
+                    >
+                      Contact
+                    </button>
+                  </div>
+                </div>
+              ))}
+          </div>
+        )}
       </div>
-      <ViewMore onClick={() => console.log('Load more vets...')} />
-    </section>
+
+      <button
+        onClick={handleSuccess}
+        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+      >
+        Refresh List
+      </button>
+    </div>
   );
-}
+};
+
+export default Vet;

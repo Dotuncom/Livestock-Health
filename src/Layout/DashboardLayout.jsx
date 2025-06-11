@@ -23,7 +23,7 @@ function DashboardLayout() {
 
   const getTitle = (pathname) => {
     if (pathname.includes("/farmers-dashboard")) return "Animal Overview";
-    if (pathname.includes("/animal")) return "Animal";
+    if (pathname.includes("/animals")) return "Animals";
     if (pathname.includes("/devices")) return "Devices";
     if (pathname.includes("/report")) return "Reports";
     if (pathname.includes("/alert")) return "Alert";
@@ -56,22 +56,42 @@ function DashboardLayout() {
         />
 
         <nav className="space-y-[18px]">
-          <NavLink to="/farmer-dashboard" end className={navClasses} onClick={handleNavClick}>
-            <Icon icon="mdi:view-dashboard-outline" className="h-[24px] w-[24px]" />
+          <NavLink
+            to="/farmer-dashboard"
+            end
+            className={navClasses}
+            onClick={handleNavClick}
+          >
+            <Icon
+              icon="mdi:view-dashboard-outline"
+              className="h-[24px] w-[24px]"
+            />
             <span>Dashboard</span>
           </NavLink>
 
-          <NavLink to="/animal" className={navClasses} onClick={handleNavClick}>
+          <NavLink
+            to="/animals"
+            className={navClasses}
+            onClick={handleNavClick}
+          >
             <Icon icon="mdi:paw" className="h-[24px] w-[24px]" />
             <span>Animals</span>
           </NavLink>
 
-          <NavLink to="/reports" className={navClasses} onClick={handleNavClick}>
+          <NavLink
+            to="/reports"
+            className={navClasses}
+            onClick={handleNavClick}
+          >
             <Icon icon="mdi:chart-box-outline" className="h-[24px] w-[24px]" />
             <span>Reports</span>
           </NavLink>
 
-          <NavLink to="/devices" className={navClasses} onClick={handleNavClick}>
+          <NavLink
+            to="/devices"
+            className={navClasses}
+            onClick={handleNavClick}
+          >
             <Icon icon="mdi:chip" className="h-[24px] w-[24px]" />
             <span>Devices</span>
           </NavLink>
@@ -86,8 +106,15 @@ function DashboardLayout() {
             <span>Vet</span>
           </NavLink>
 
-          <NavLink to="/farmer-profile" className={navClasses} onClick={handleNavClick}>
-            <Icon icon="mdi:account-circle-outline" className="h-[24px] w-[24px]" />
+          <NavLink
+            to="/farmer-profile"
+            className={navClasses}
+            onClick={handleNavClick}
+          >
+            <Icon
+              icon="mdi:account-circle-outline"
+              className="h-[24px] w-[24px]"
+            />
             <span>Profile</span>
           </NavLink>
         </nav>
@@ -101,7 +128,10 @@ function DashboardLayout() {
 
           <div className="flex items-center space-x-4">
             {/* Notification Icon */}
-            <button className="relative focus:outline-none" aria-label="Notifications">
+            <button
+              className="relative focus:outline-none"
+              aria-label="Notifications"
+            >
               <Icon icon="mdi:bell-outline" className="h-6 w-6" />
               <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600"></span>
             </button>
@@ -112,14 +142,16 @@ function DashboardLayout() {
               className="focus:outline-none"
               aria-label="Toggle menu"
             >
-              <Icon icon={open ? "mdi:close" : "mdi:menu"} className="h-9 w-9" />
+              <Icon
+                icon={open ? "mdi:close" : "mdi:menu"}
+                className="h-9 w-9"
+              />
             </button>
           </div>
         </div>
 
         {/* Page content */}
         <main className="p-2 overflow-auto bg-[#F5F5F5]">
-          
           <Header title={currentTitle} />
           <Outlet />
         </main>

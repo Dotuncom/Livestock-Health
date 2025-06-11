@@ -1,142 +1,148 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Mail, Lock } from "lucide-react";
-import logoo from "../../assets/logoo.png";
-import signupbg from "../../assets/signupbg.svg";
+import { useNavigate, Link } from "react-router-dom";
+import { supabase } from "../../App";
 import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const userType = location.state?.userType || "farmer";
-
-  const [loginData, setLoginData] = useState({
+  const [isLoading, setIsLoading] = useState(false);
+  const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setLoginData((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validateLogin = () => {
-    if (!loginData.email || !loginData.password) {
-      toast.error("Please enter both email and password.");
-      return false;
-    }
-    return true;
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateLogin()) {
+    setIsLoading(true);
+
+    try {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.signInWithPassword({
+        email: form.email,
+        password: form.password,
+      });
+
+      if (error) throw error;
+
+      // Get user role using the get_user_role function
+      const { data: role, error: roleError } = await supabase.rpc(
+        "get_user_role",
+        { user_id: user.id }
+      );
+
+      if (roleError) throw roleError;
+
       toast.success("Login successful!");
 
-      if (userType === "vet") {
-        navigate("/vet-dashboard");
+      // Redirect based on role
+      if (role === "vet") {
+        navigate("/vet/dashboard");
       } else {
         navigate("/farmer-dashboard");
       }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const switchUserType = () => {
-    const newType = userType === "vet" ? "farmer" : "vet";
-    navigate("/login", { state: { userType: newType } });
-  };
-
-  const inputContainerStyle =
-    "flex items-center border rounded px-3 border-none md:h-[72px] h-[28px] bg-[#EFEEEE] md:w-[500px] w-[210px]";
-
-  const iconStyle = "text-gray-400 md:w-6 md:h-6 w-4 h-4";
-
-  const inputStyle =
-    "flex-1 bg-transparent focus:outline-none pl-3 text-base md:text-2xl placeholder:text-sm md:placeholder:text-2xl";
-
-  const buttonStyle =
-    "md:w-[500px] w-[210px] md:h-[72px] h-[28px] bg-green-800 text-white rounded hover:bg-green-900 text-base md:text-2xl font-semibold";
-
   return (
-    <div className="min-h-screen flex flex-col md:flex-row overflow-x-hidden">
-      {/* Desktop Background */}
-      <div
-        className="hidden md:block md:w-1/2 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${signupbg})` }}
-      >
-        <div className="absolute flex flex-col justify-center items-center">
-         
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Or{" "}
+            <Link
+              to="/signup"
+              className="font-medium text-green-600 hover:text-green-500"
+            >
+              create a new account
+            </Link>
+          </p>
         </div>
-      </div>
-
-      {/* Mobile background + logo */}
-      <div
-        className="block md:hidden w-full h-full absolute bg-cover bg-center -z-10"
-        style={{ backgroundImage: `url(${signupbg})` }}
-      />
-      <div className="block md:hidden w-full p-4 flex justify-center">
-        <img src={logoo} alt="Qiwo Farms" className="w-[165px] pt-7" />
-      </div>
-
-      {/* Form Section */}
-      <div className="w-full md:w-1/2 flex items-center justify-center p-6 mt-60 md:mt-0">
-        <div className="bg-white p-8 rounded-lg shadow-md md:w-full w-[300px]">
-          <div className="pl-[4rem]">
-            <h2 className="text-2xl font-bold md:text-5xl md:font-bold mb-2 text-center md:text-left">
-              {userType === "vet" ? "Vet Login" : "Farmer Login"}
-            </h2>
-            <p className="text-xl md:text-2xl md:text-gray-500 mb-6 text-center md:text-left">
-              Enter your credentials
-            </p>
-          </div>
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-4 flex flex-col items-center"
-          >
-            {/* Email */}
-            <div className={inputContainerStyle}>
-              <Mail className={iconStyle} />
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email" className="sr-only">
+                Email address
+              </label>
               <input
-                type="email"
+                id="email"
                 name="email"
-                placeholder="Enter Email"
-                value={loginData.email}
+                type="email"
+                autoComplete="email"
+                required
+                value={form.email}
                 onChange={handleChange}
-                className={inputStyle}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                placeholder="Email address"
               />
             </div>
-
-            {/* Password */}
-            <div className={inputContainerStyle}>
-              <Lock className={iconStyle} />
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
               <input
-                type="password"
+                id="password"
                 name="password"
-                placeholder="Password"
-                value={loginData.password}
+                type="password"
+                autoComplete="current-password"
+                required
+                value={form.password}
                 onChange={handleChange}
-                className={inputStyle}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                placeholder="Password"
               />
             </div>
+          </div>
 
-            {/* Submit Button */}
-            <button type="submit" className={buttonStyle}>
-              Login
-            </button>
-
-            {/* Switch Login */}
-            <p className="text-xl md:text-xl text-gray-500 mt-2">
-              Not a {userType}?{" "}
-              <button
-                type="button"
-                onClick={switchUserType}
-                className="text-[#1D4719] underline"
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <input
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+              />
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-900"
               >
-                Switch to {userType === "vet" ? "Farmer" : "Vet"} Login
-              </button>
-            </p>
-          </form>
-        </div>
+                Remember me
+              </label>
+            </div>
+
+            <div className="text-sm">
+              <a
+                href="#"
+                className="font-medium text-green-600 hover:text-green-500"
+              >
+                Forgot your password?
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? "Signing in..." : "Sign in"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

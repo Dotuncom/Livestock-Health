@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { supabase } from "../../App";
 import logoo from "../../assets/logoo.png";
 import authbg from "../../assets/authbg.png";
-import { toast } from "react-toastify";
 
 export default function VetOnboarding() {
   const navigate = useNavigate();
   const location = useLocation();
-
   const { signupData, userType } = location.state || {};
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!signupData) navigate("/vet-signup");
+    if (!signupData) navigate("/vet-form");
   }, [signupData, navigate]);
 
   const [onboardingData, setOnboardingData] = useState({
@@ -19,6 +20,8 @@ export default function VetOnboarding() {
     clinicName: "",
     licenseNumber: "",
     preferredAnimals: [],
+    location: "",
+    phone: "",
   });
 
   const handleChange = (e) => {
@@ -36,9 +39,22 @@ export default function VetOnboarding() {
   };
 
   const validateOnboarding = () => {
-    const { yearsOfExperience, clinicName, licenseNumber, preferredAnimals } = onboardingData;
-    if (!yearsOfExperience || !clinicName || !licenseNumber) {
-      toast.error("Please fill in all fields");
+    const {
+      yearsOfExperience,
+      clinicName,
+      licenseNumber,
+      preferredAnimals,
+      location,
+      phone,
+    } = onboardingData;
+    if (
+      !yearsOfExperience ||
+      !clinicName ||
+      !licenseNumber ||
+      !location ||
+      !phone
+    ) {
+      toast.error("Please fill in all required fields");
       return false;
     }
     if (preferredAnimals.length === 0) {
@@ -48,21 +64,44 @@ export default function VetOnboarding() {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateOnboarding()) {
-      navigate("/otp", { state: { signupData, onboardingData, userType } });
+    if (!validateOnboarding()) return;
+
+    setIsLoading(true);
+    try {
+      // Insert vet profile data into vets table
+      const { error: vetError } = await supabase.from("vets").insert({
+        id: signupData.id,
+        user_id: signupData.id,
+        years_of_experience: parseInt(onboardingData.yearsOfExperience),
+        clinic_name: onboardingData.clinicName,
+        license_number: onboardingData.licenseNumber,
+        preferred_animals: onboardingData.preferredAnimals,
+        location: onboardingData.location,
+        phone: onboardingData.phone,
+        onboarding_completed: true,
+      });
+
+      if (vetError) throw vetError;
+
+      toast.success("Vet profile completed successfully!");
+      navigate("/vet-dashboard");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const inputContainerStyle =
+    "flex items-center border-none rounded px-3 bg-[#EFEEEE] md:h-[60px] h-[28px] md:w-[538px] w-[210px]";
 
   const inputStyle =
     "flex-1 bg-transparent focus:outline-none pl-3 text-base md:text-2xl placeholder:text-sm md:placeholder:text-2xl";
 
-  const inputContainerStyle =
-    "flex items-center border-none  rounded px-3 bg-[#EFEEEE]  md:h-[60px] h-[28px] md:w-[538px] w-[210px]";
-
   const buttonStyle =
-    "md:w-[538px] w-[210px] md:h-[60px] h-[28px] bg-green-800 text-white rounded hover:bg-green-900 text-base md:text-2xl font-semibold";
+    "md:w-[538px] w-[210px] md:h-[60px] h-[28px] bg-green-800 text-white rounded hover:bg-green-900 text-base md:text-2xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed";
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row overflow-x-hidden">
@@ -94,16 +133,20 @@ export default function VetOnboarding() {
               Tell us about your veterinary practice
             </p>
           </div>
-          <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 flex flex-col items-center"
+          >
             {/* Years of Experience */}
             <div className={inputContainerStyle}>
               <input
-                type="text"
+                type="number"
                 name="yearsOfExperience"
                 placeholder="Years of Experience"
                 value={onboardingData.yearsOfExperience}
                 onChange={handleChange}
                 className={inputStyle}
+                disabled={isLoading}
               />
             </div>
 
@@ -116,6 +159,7 @@ export default function VetOnboarding() {
                 value={onboardingData.clinicName}
                 onChange={handleChange}
                 className={inputStyle}
+                disabled={isLoading}
               />
             </div>
 
@@ -128,6 +172,33 @@ export default function VetOnboarding() {
                 value={onboardingData.licenseNumber}
                 onChange={handleChange}
                 className={inputStyle}
+                disabled={isLoading}
+              />
+            </div>
+
+            {/* Location */}
+            <div className={inputContainerStyle}>
+              <input
+                type="text"
+                name="location"
+                placeholder="Clinic Location"
+                value={onboardingData.location}
+                onChange={handleChange}
+                className={inputStyle}
+                disabled={isLoading}
+              />
+            </div>
+
+            {/* Phone */}
+            <div className={inputContainerStyle}>
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                value={onboardingData.phone}
+                onChange={handleChange}
+                className={inputStyle}
+                disabled={isLoading}
               />
             </div>
 
@@ -144,6 +215,7 @@ export default function VetOnboarding() {
                       checked={onboardingData.preferredAnimals.includes(animal)}
                       onChange={handleChange}
                       className="mr-1"
+                      disabled={isLoading}
                     />
                     {animal}
                   </label>
@@ -152,8 +224,8 @@ export default function VetOnboarding() {
             </div>
 
             {/* Submit Button */}
-            <button type="submit" className={buttonStyle}>
-              Next
+            <button type="submit" className={buttonStyle} disabled={isLoading}>
+              {isLoading ? "Saving..." : "Complete Profile"}
             </button>
           </form>
         </div>

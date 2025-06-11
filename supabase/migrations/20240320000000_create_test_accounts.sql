@@ -65,7 +65,7 @@ BEGIN
             recovery_token
         ) VALUES (
             '00000000-0000-0000-0000-000000000000',
-            '11111111-1111-1111-1111-111111111111'::uuid,
+            'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
             'authenticated',
             'authenticated',
             'farmer@test.com',
@@ -115,7 +115,7 @@ BEGIN
             recovery_token
         ) VALUES (
             '00000000-0000-0000-0000-000000000000',
-            '22222222-2222-2222-2222-222222222222'::uuid,
+            'b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a22',
             'authenticated',
             'authenticated',
             'vet@test.com',

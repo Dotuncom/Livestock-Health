@@ -11,15 +11,45 @@ import SensorDataTable from "../../components/SensorDataTable";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../App";
 import { toast } from "react-toastify";
+import FarmerSummaryCard from "../../components/FarmerSummaryCard";
+import AppointmentList from "../../components/AppointmentList";
+import NotificationList from "../../components/NotificationList";
 
 function Dashboard() {
-  const { data, isLoading, error } = useQuery({
+  const summaryCards = [
+    {
+      title: "Total Animals",
+      count: 0,
+      icon: "mdi:cow",
+    },
+    {
+      title: "Active Devices",
+      count: 0,
+      icon: "mdi:devices",
+    },
+    {
+      title: "Recent Alerts",
+      count: 0,
+      icon: "mdi:bell-alert",
+    },
+  ];
+
+  const {
+    data: livestockData,
+    isLoading: livestockLoading,
+    error: livestockError,
+  } = useQuery({
     queryKey: ["livestock"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("livestock").select("*");
-      if (error) {
-        throw new Error(error.message);
-      }
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data, error } = await supabase
+        .from("livestock")
+        .select("*")
+        .eq("farmer_id", user.id);
+
+      if (error) throw error;
       return data;
     },
     onError: (err) => {
@@ -27,90 +57,223 @@ function Dashboard() {
     },
   });
 
-  const handleSuccess = () => {
-    toast.success("Livestock data updated successfully!");
-  };
+  const {
+    data: devicesData,
+    isLoading: devicesLoading,
+    error: devicesError,
+  } = useQuery({
+    queryKey: ["devices"],
+    queryFn: async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data, error } = await supabase
+        .from("devices")
+        .select("*")
+        .eq("farmer_id", user.id);
+
+      if (error) throw error;
+      return data;
+    },
+    onError: (err) => {
+      toast.error("Error fetching devices data: " + err.message);
+    },
+  });
+
+  const {
+    data: alertsData,
+    isLoading: alertsLoading,
+    error: alertsError,
+  } = useQuery({
+    queryKey: ["alerts"],
+    queryFn: async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data, error } = await supabase
+        .from("alerts")
+        .select("*")
+        .eq("farmer_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(5);
+
+      if (error) throw error;
+      return data;
+    },
+    onError: (err) => {
+      toast.error("Error fetching alerts data: " + err.message);
+    },
+  });
+
+  const {
+    data: appointmentsData,
+    isLoading: appointmentsLoading,
+    error: appointmentsError,
+  } = useQuery({
+    queryKey: ["appointments"],
+    queryFn: async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data, error } = await supabase
+        .from("appointments")
+        .select(
+          `
+          *,
+          vet:vet_id (
+            email,
+            raw_user_meta_data
+          )
+        `
+        )
+        .eq("farmer_id", user.id)
+        .gte("appointment_date", new Date().toISOString())
+        .order("appointment_date", { ascending: true })
+        .limit(5);
+
+      if (error) throw error;
+      return data;
+    },
+    onError: (err) => {
+      toast.error("Error fetching appointments data: " + err.message);
+    },
+  });
+
+  if (livestockData) {
+    summaryCards[0].count = livestockData.length;
+  }
+  if (devicesData) {
+    summaryCards[1].count = devicesData.filter(
+      (d) => d.status === "active"
+    ).length;
+  }
+  if (alertsData) {
+    summaryCards[2].count = alertsData.length;
+  }
 
   return (
-    <div className="p-2 md:p-4 bg-white">
-      <h1>Dashboard Overview</h1>
-      {/* Stat Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={RegAni} value={"32"} title={"Register Animal"} />
-        <StatCard
-          icon={Abnormal}
-          value={"6"}
-          title={"Animal with Abnormal Vitals"}
-        />
-        <StatCard
-          icon={attention}
-          value={"6"}
-          title={"Animal 002 needs Attention"}
-        />
-        <StatCard icon={speaker} value={"6"} title={"Upcoming Reminder"} />
+    <div className="px-[40px] space-y-6">
+      <h1 className="md:text-4xl font-bold">Dashboard Overview</h1>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-8">
+        {summaryCards.map((card, idx) => (
+          <FarmerSummaryCard
+            key={idx}
+            title={card.title}
+            count={card.count}
+            icon={card.icon}
+          />
+        ))}
       </div>
 
-      {/* Location & Pie Chart */}
-      <div className="mt-10 flex flex-col gap-6 md:flex-row">
-        {/* Animal Location */}
-        <div className="w-full md:w-7/12">
-          <h1 className="text-xl md:text-2xl font-bold Nunito mb-4">
-            Animal Location
-          </h1>
-          <div className="flex justify-center md:block">
-            <div className="w-[300px] h-[300px] md:w-full md:h-[400px]">
-              <LivestockTracker />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-[62px]">
+        {/* Upcoming Appointments */}
+        <div>
+          <h3 className="text-lg font-poppins font-semibold text-gray-800 mb-3">
+            Upcoming Appointments
+          </h3>
+          {appointmentsLoading ? (
+            <p>Loading appointments...</p>
+          ) : appointmentsError ? (
+            <p>Error: {appointmentsError.message}</p>
+          ) : appointmentsData?.length === 0 ? (
+            <p className="text-gray-600 italic">No upcoming appointments.</p>
+          ) : (
+            <div className="bg-white pt-[48px] px-[28px] shadow-md rounded-lg p-4">
+              <ul className="space-y-4">
+                {appointmentsData?.map((appt) => {
+                  const vetName =
+                    appt.vet?.raw_user_meta_data?.full_name ||
+                    appt.vet?.email ||
+                    "Unknown Vet";
+                  return (
+                    <li
+                      key={appt.id}
+                      className="flex justify-between items-center text-sm font-inter text-gray-700"
+                    >
+                      <div>
+                        <div className="text-[20px] Nunito font-semibold">
+                          {new Date(appt.appointment_date).toLocaleDateString()}
+                        </div>
+                        <div className="text-gray-600">
+                          {vetName} - {appt.time_slot}
+                        </div>
+                        <div className="text-sm">
+                          <span
+                            className={`font-semibold ${
+                              appt.status === "pending"
+                                ? "text-yellow-600"
+                                : appt.status === "accepted"
+                                ? "text-green-600"
+                                : appt.status === "rescheduled"
+                                ? "text-blue-600"
+                                : "text-gray-600"
+                            }`}
+                          >
+                            {appt.status.charAt(0).toUpperCase() +
+                              appt.status.slice(1)}
+                          </span>
+                          {appt.status === "rescheduled" &&
+                            appt.rescheduled_date && (
+                              <span className="text-blue-600 ml-2">
+                                →{" "}
+                                {new Date(
+                                  appt.rescheduled_date
+                                ).toLocaleDateString()}{" "}
+                                ({appt.rescheduled_time_slot})
+                              </span>
+                            )}
+                        </div>
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {appt.animal_type}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Recent Statistics */}
-        <div className="w-full md:w-5/12">
-          <h1 className="text-xl md:text-2xl font-bold Nunito mb-4">
-            Recent Statistics
-          </h1>
-          <div className="w-full  md:h-[400px] overflow-x-auto">
-            <HealthStatusPieChart />
-          </div>
+        {/* Recent Alerts */}
+        <div>
+          <h3 className="text-lg Poppins font-semibold text-gray-800 mb-3">
+            Recent Alerts
+          </h3>
+          {alertsLoading ? (
+            <p>Loading alerts...</p>
+          ) : alertsError ? (
+            <p>Error: {alertsError.message}</p>
+          ) : alertsData?.length === 0 ? (
+            <p className="text-gray-600 italic">No recent alerts.</p>
+          ) : (
+            <NotificationList alerts={alertsData} />
+          )}
         </div>
       </div>
 
-      {/* Status Table & Device Status */}
-      <div className="mt-10 flex flex-col gap-4 md:flex-row">
-        <div className="w-full md:w-7/12">
-          <h1 className="text-xl md:text-2xl font-bold Nunito mb-4">
-            Recent Statistics
-          </h1>
-          <SensorDataTable />
-        </div>
-        <div className="w-full md:w-5/12">
-          <h1 className="text-xl md:text-2xl font-bold Nunito mb-4">
-            Device Status
-          </h1>
-          <DeviceStatus />
-        </div>
+      {/* Livestock Overview */}
+      <div className="bg-[#f8f9fa] rounded-lg p-4 shadow">
+        <h2 className="font-semibold text-xl mb-4">Livestock Overview</h2>
+        {livestockLoading ? (
+          <p>Loading livestock data...</p>
+        ) : livestockError ? (
+          <p>Error: {livestockError.message}</p>
+        ) : livestockData?.length === 0 ? (
+          <p className="text-gray-600 italic">No livestock registered yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {livestockData?.map((item) => (
+              <div key={item.id} className="bg-white p-4 rounded shadow">
+                <h3 className="font-medium">{item.name}</h3>
+                <p>Status: {item.status}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-
-      {isLoading ? (
-        <p>Loading livestock data...</p>
-      ) : error ? (
-        <p>Error: {error.message}</p>
-      ) : (
-        <div className="mt-10">
-          <h1 className="text-xl md:text-2xl font-bold Nunito mb-4">
-            Livestock Data
-          </h1>
-          <ul>
-            {data &&
-              data.map((item) => (
-                <li key={item.id}>
-                  {item.name} (Status: {item.status})
-                </li>
-              ))}
-          </ul>
-          <button onClick={handleSuccess}>Simulate Update</button>
-        </div>
-      )}
     </div>
   );
 }

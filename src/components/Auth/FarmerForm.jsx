@@ -14,7 +14,7 @@ export default function FarmerSignup() {
 
   const [signupData, setSignupData] = useState({
     email: "",
-    name: "",
+    full_name: "",
     location: "",
     password: "",
     confirmPassword: "",
@@ -28,7 +28,7 @@ export default function FarmerSignup() {
   const validateSignup = () => {
     if (
       !signupData.email ||
-      !signupData.name ||
+      !signupData.full_name ||
       !signupData.location ||
       !signupData.password ||
       !signupData.confirmPassword
@@ -53,30 +53,51 @@ export default function FarmerSignup() {
 
     setIsLoading(true);
     try {
-      // Sign up with Supabase
+      // 1. Sign up with Supabase Auth, but don't wait for email confirmation
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: signupData.email,
         password: signupData.password,
+        options: {
+          data: {
+            role: userType,
+            full_name: signupData.full_name,
+            location: signupData.location,
+          },
+          emailRedirectTo: `${window.location.origin}/farmer-onboarding`,
+        },
       });
 
       if (authError) throw authError;
 
-      // Create user profile in the users table
-      const { error: profileError } = await supabase.from("users").insert([
-        {
-          id: authData.user.id,
+      // 2. Immediately sign in without waiting for email confirmation
+      const { data: signInData, error: signInError } =
+        await supabase.auth.signInWithPassword({
           email: signupData.email,
-          name: signupData.name,
-          location: signupData.location,
-          role: userType,
-        },
-      ]);
+          password: signupData.password,
+        });
 
-      if (profileError) throw profileError;
+      if (signInError) {
+        // If sign in fails, try to update the user's email_confirmed_at
+        const { error: updateError } = await supabase.rpc(
+          "confirm_user_email",
+          {
+            user_id: authData.user.id,
+          }
+        );
 
-      toast.success(
-        "Signup successful! Please check your email for verification."
-      );
+        if (updateError) throw updateError;
+
+        // Try signing in again after confirming email
+        const { error: retrySignInError } =
+          await supabase.auth.signInWithPassword({
+            email: signupData.email,
+            password: signupData.password,
+          });
+
+        if (retrySignInError) throw retrySignInError;
+      }
+
+      toast.success("Account created successfully!");
       navigate("/farmer-onboarding", {
         state: {
           signupData: {
@@ -160,9 +181,9 @@ export default function FarmerSignup() {
               <User className={iconStyle} />
               <input
                 type="text"
-                name="name"
-                placeholder="Name"
-                value={signupData.name}
+                name="full_name"
+                placeholder="Full Name"
+                value={signupData.full_name}
                 onChange={handleChange}
                 className={inputStyle}
                 disabled={isLoading}

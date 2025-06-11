@@ -1,72 +1,114 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
-const LOCAL_STORAGE_KEY = "vet_appointments";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "../App";
+import { toast } from "react-toastify";
 
 export default function BookAppointment() {
   const { id } = useParams();
-
-  const vets = [
-    { id: 1, name: "Vet Didi" },
-    { id: 2, name: "Vet Daniel" },
-    { id: 3, name: "Vet Henry" },
-  ];
-
-  const vet = vets.find((v) => v.id === parseInt(id));
-  if (!vet) return <p className="p-4 text-red-600">Vet not found</p>;
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [form, setForm] = useState({
-    userName: "",
-    phone: "",
-    bookingDate: "",
-    timeSlot: "morning",
-    animalType: "Cattle",
+    farmer_name: "",
+    farmer_phone: "",
+    booking_date: "",
+    time_slot: "morning",
+    animal_type: "Cattle",
     urgency: "Normal",
     reason: "",
     notes: "",
   });
 
   const [errors, setErrors] = useState({});
-  const [appointments, setAppointments] = useState([]);
-  const [filteredAppointments, setFilteredAppointments] = useState([]);
   const [saving, setSaving] = useState(false);
-  const [confirmationMsg, setConfirmationMsg] = useState("");
 
-  useEffect(() => {
-    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (stored) {
-      const allAppointments = JSON.parse(stored);
-      setAppointments(allAppointments);
+  // Fetch vet details
+  const { data: vet, isLoading: vetLoading } = useQuery({
+    queryKey: ["vet", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", id)
+        .single();
 
-      if (form.phone) {
-        const filtered = allAppointments.filter(
-          (a) => a.vetId === vet.id && a.phone === form.phone
-        );
-        setFilteredAppointments(filtered);
-      }
-    }
-  }, []);
+      if (error) throw error;
+      return data;
+    },
+  });
 
-  useEffect(() => {
-    if (appointments.length && form.phone) {
-      const filtered = appointments.filter(
-        (a) => a.vetId === vet.id && a.phone === form.phone
-      );
-      setFilteredAppointments(filtered);
-    } else {
-      setFilteredAppointments([]);
-    }
-  }, [form.phone, appointments]);
+  // Fetch farmer's previous appointments with this vet
+  const { data: previousAppointments, isLoading: appointmentsLoading } =
+    useQuery({
+      queryKey: ["appointments", id],
+      queryFn: async () => {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        const { data, error } = await supabase
+          .from("appointments")
+          .select("*")
+          .eq("vet_id", id)
+          .eq("farmer_id", user.id)
+          .order("appointment_date", { ascending: false });
+
+        if (error) throw error;
+        return data;
+      },
+    });
+
+  // Create appointment mutation
+  const createAppointment = useMutation({
+    mutationFn: async (appointmentData) => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data, error } = await supabase
+        .from("appointments")
+        .insert([
+          {
+            ...appointmentData,
+            farmer_id: user.id,
+            vet_id: id,
+            status: "pending",
+            created_at: new Date().toISOString(),
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["appointments", id]);
+      toast.success("Appointment booked successfully!");
+      setForm({
+        farmer_name: "",
+        farmer_phone: "",
+        booking_date: "",
+        time_slot: "morning",
+        animal_type: "Cattle",
+        urgency: "Normal",
+        reason: "",
+        notes: "",
+      });
+    },
+    onError: (error) => {
+      toast.error("Error booking appointment: " + error.message);
+    },
+  });
 
   const validate = () => {
     const errs = {};
-    if (!form.userName.trim()) errs.userName = "Name is required";
-    if (!form.phone.trim()) errs.phone = "Phone is required";
-    else if (!/^\+?\d{7,15}$/.test(form.phone.trim()))
-      errs.phone = "Phone number invalid";
-    if (!form.bookingDate) errs.bookingDate = "Date is required";
-    else if (new Date(form.bookingDate) < new Date().setHours(0, 0, 0, 0))
-      errs.bookingDate = "Date cannot be in the past";
+    if (!form.farmer_name.trim()) errs.farmer_name = "Name is required";
+    if (!form.farmer_phone.trim()) errs.farmer_phone = "Phone is required";
+    else if (!/^\+?\d{7,15}$/.test(form.farmer_phone.trim()))
+      errs.farmer_phone = "Phone number invalid";
+    if (!form.booking_date) errs.booking_date = "Date is required";
+    else if (new Date(form.booking_date) < new Date().setHours(0, 0, 0, 0))
+      errs.booking_date = "Date cannot be in the past";
     if (!form.reason.trim()) errs.reason = "Reason is required";
     return errs;
   };
@@ -76,42 +118,25 @@ export default function BookAppointment() {
     setForm((f) => ({ ...f, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
 
     setSaving(true);
-
-    const newAppointment = {
-      id: Date.now(),
-      vetId: vet.id,
-      vetName: vet.name,
-      ...form,
-      createdAt: new Date().toISOString(),
-    };
-
-    const updatedAppointments = [...appointments, newAppointment];
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedAppointments));
-    setAppointments(updatedAppointments);
-
-    setForm((f) => ({
-      userName: "",
-      phone: f.phone,
-      bookingDate: "",
-      timeSlot: "morning",
-      animalType: "Cattle",
-      urgency: "Normal",
-      reason: "",
-      notes: "",
-    }));
-
-    setConfirmationMsg("Appointment booked successfully!");
-    setSaving(false);
-
-    setFilteredAppointments((prev) => [...prev, newAppointment]);
+    try {
+      await createAppointment.mutateAsync({
+        ...form,
+        appointment_date: new Date(form.booking_date).toISOString(),
+      });
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (vetLoading) return <div>Loading vet details...</div>;
+  if (!vet) return <div>Vet not found</div>;
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-12 flex justify-center">
@@ -119,76 +144,85 @@ export default function BookAppointment() {
         {/* Left side - Form */}
         <div>
           <h2 className="text-3xl font-extrabold text-green-900 mb-6 text-center md:text-left">
-            Book Appointment with <span className="text-green-700">{vet.name}</span>
+            Book Appointment with{" "}
+            <span className="text-green-700">{vet.email}</span>
           </h2>
-
-          {confirmationMsg && (
-            <div className="mb-6 bg-green-100 text-green-800 px-5 py-3 rounded text-center font-medium shadow-sm">
-              {confirmationMsg}
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name */}
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Your Name</label>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Your Name
+              </label>
               <input
                 type="text"
-                name="userName"
-                value={form.userName}
+                name="farmer_name"
+                value={form.farmer_name}
                 onChange={handleChange}
                 className={`w-full border rounded-md px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-600 ${
-                  errors.userName ? "border-red-500" : "border-gray-300"
+                  errors.farmer_name ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="Enter your full name"
               />
-              {errors.userName && (
-                <p className="text-red-600 text-sm mt-1">{errors.userName}</p>
+              {errors.farmer_name && (
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.farmer_name}
+                </p>
               )}
             </div>
 
             {/* Phone */}
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Phone Number</label>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Phone Number
+              </label>
               <input
                 type="tel"
-                name="phone"
-                value={form.phone}
+                name="farmer_phone"
+                value={form.farmer_phone}
                 onChange={handleChange}
                 className={`w-full border rounded-md px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-600 ${
-                  errors.phone ? "border-red-500" : "border-gray-300"
+                  errors.farmer_phone ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="+2347012345678"
               />
-              {errors.phone && (
-                <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
+              {errors.farmer_phone && (
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.farmer_phone}
+                </p>
               )}
             </div>
 
             {/* Date */}
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Preferred Date</label>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Preferred Date
+              </label>
               <input
                 type="date"
-                name="bookingDate"
-                value={form.bookingDate}
+                name="booking_date"
+                value={form.booking_date}
                 onChange={handleChange}
                 min={new Date().toISOString().split("T")[0]}
                 className={`w-full border rounded-md px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600 ${
-                  errors.bookingDate ? "border-red-500" : "border-gray-300"
+                  errors.booking_date ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {errors.bookingDate && (
-                <p className="text-red-600 text-sm mt-1">{errors.bookingDate}</p>
+              {errors.booking_date && (
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.booking_date}
+                </p>
               )}
             </div>
 
             {/* Time Slot */}
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Preferred Time</label>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Preferred Time
+              </label>
               <select
-                name="timeSlot"
-                value={form.timeSlot}
+                name="time_slot"
+                value={form.time_slot}
                 onChange={handleChange}
                 className="w-full border rounded-md px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600"
               >
@@ -200,10 +234,12 @@ export default function BookAppointment() {
 
             {/* Animal Type */}
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Animal Type</label>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Animal Type
+              </label>
               <select
-                name="animalType"
-                value={form.animalType}
+                name="animal_type"
+                value={form.animal_type}
                 onChange={handleChange}
                 className="w-full border rounded-md px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-600"
               >
@@ -217,7 +253,9 @@ export default function BookAppointment() {
 
             {/* Urgency */}
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Urgency</label>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Urgency
+              </label>
               <select
                 name="urgency"
                 value={form.urgency}
@@ -231,7 +269,9 @@ export default function BookAppointment() {
 
             {/* Reason */}
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Reason for Visit</label>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Reason for Visit
+              </label>
               <textarea
                 name="reason"
                 value={form.reason}
@@ -249,7 +289,9 @@ export default function BookAppointment() {
 
             {/* Additional Notes */}
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Additional Notes (Optional)</label>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Additional Notes (Optional)
+              </label>
               <textarea
                 name="notes"
                 value={form.notes}
@@ -273,22 +315,58 @@ export default function BookAppointment() {
         {/* Right side - Previous Appointments */}
         <div className="flex flex-col">
           <h3 className="text-2xl font-semibold text-green-900 mb-6 text-center md:text-left">
-            Your Previous Appointments with <span className="text-green-700">{vet.name}</span>
+            Your Previous Appointments
           </h3>
 
-          {filteredAppointments.length === 0 ? (
+          {appointmentsLoading ? (
+            <p>Loading appointments...</p>
+          ) : previousAppointments?.length === 0 ? (
             <p className="text-gray-600 italic text-center md:text-left">
               No previous appointments found.
             </p>
           ) : (
             <ul className="space-y-5 overflow-y-auto max-h-[520px] px-3 py-2 border border-gray-300 rounded-md bg-gray-50 shadow-inner">
-              {filteredAppointments.map((appt) => (
-                <li key={appt.id} className="bg-white rounded-md p-4 shadow-sm border border-gray-200">
+              {previousAppointments?.map((appt) => (
+                <li
+                  key={appt.id}
+                  className="bg-white rounded-md p-4 shadow-sm border border-gray-200"
+                >
                   <p className="font-medium text-green-800">
-                    <strong>Date:</strong> {appt.bookingDate} ({appt.timeSlot})
+                    <strong>Date:</strong>{" "}
+                    {new Date(appt.appointment_date).toLocaleDateString()} (
+                    {appt.time_slot})
                   </p>
                   <p className="text-gray-700">
-                    <strong>Animal:</strong> {appt.animalType} | <strong>Urgency:</strong> {appt.urgency}
+                    <strong>Status:</strong>{" "}
+                    <span
+                      className={`font-semibold ${
+                        appt.status === "pending"
+                          ? "text-yellow-600"
+                          : appt.status === "accepted"
+                          ? "text-green-600"
+                          : appt.status === "rescheduled"
+                          ? "text-blue-600"
+                          : appt.status === "completed"
+                          ? "text-gray-600"
+                          : "text-red-600"
+                      }`}
+                    >
+                      {appt.status.charAt(0).toUpperCase() +
+                        appt.status.slice(1)}
+                    </span>
+                  </p>
+                  <p className="text-gray-700">
+                    <strong>Animal:</strong> {appt.animal_type} |{" "}
+                    <strong>Urgency:</strong>{" "}
+                    <span
+                      className={
+                        appt.urgency === "Emergency"
+                          ? "text-red-600 font-semibold"
+                          : ""
+                      }
+                    >
+                      {appt.urgency}
+                    </span>
                   </p>
                   <p className="text-gray-700 mt-1">
                     <strong>Reason:</strong> {appt.reason}
@@ -296,6 +374,13 @@ export default function BookAppointment() {
                   {appt.notes && (
                     <p className="text-gray-600 mt-1 italic">
                       <strong>Notes:</strong> {appt.notes}
+                    </p>
+                  )}
+                  {appt.status === "rescheduled" && appt.rescheduled_date && (
+                    <p className="text-blue-600 mt-1">
+                      <strong>Rescheduled to:</strong>{" "}
+                      {new Date(appt.rescheduled_date).toLocaleDateString()} (
+                      {appt.rescheduled_time_slot})
                     </p>
                   )}
                 </li>

@@ -14,7 +14,7 @@ export default function VetForm() {
 
   const [signupData, setSignupData] = useState({
     email: "",
-    name: "",
+    full_name: "",
     specialization: "",
     password: "",
     confirmPassword: "",
@@ -26,10 +26,16 @@ export default function VetForm() {
   };
 
   const validateSignup = () => {
-    const { email, name, specialization, password, confirmPassword } =
+    const { email, full_name, specialization, password, confirmPassword } =
       signupData;
-    if (!email || !name || !specialization || !password || !confirmPassword) {
-      toast.error("Please fill in all fields");
+    if (
+      !email ||
+      !full_name ||
+      !specialization ||
+      !password ||
+      !confirmPassword
+    ) {
+      toast.error("Please fill in all required fields");
       return false;
     }
     if (password !== confirmPassword) {
@@ -49,29 +55,45 @@ export default function VetForm() {
 
     setIsLoading(true);
     try {
-      // Sign up with Supabase
+      // Sign up with Supabase, including role in metadata
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: signupData.email,
         password: signupData.password,
+        options: {
+          data: {
+            role: "vet", // Explicitly set role as 'vet'
+            full_name: signupData.full_name,
+          },
+        },
       });
 
       if (authError) throw authError;
 
-      // Create user profile in the users table
-      const { error: profileError } = await supabase.from("users").insert([
-        {
-          id: authData.user.id,
-          email: signupData.email,
-          name: signupData.name,
-          specialization: signupData.specialization,
-          role: userType,
-        },
-      ]);
+      // Create initial user profile with only essential data
+      const { error: profileError } = await supabase.from("users").insert({
+        id: authData.user.id,
+        email: signupData.email,
+        full_name: signupData.full_name,
+        role: "vet", // Explicitly set role as 'vet'
+        created_at: new Date().toISOString(),
+      });
 
       if (profileError) throw profileError;
 
+      // Verify the user profile was created correctly
+      const { data: userData, error: userError } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", authData.user.id)
+        .single();
+
+      if (userError) throw userError;
+      if (userData.role !== "vet") {
+        throw new Error("Failed to set user role correctly");
+      }
+
       toast.success(
-        "Signup successful! Please check your email for verification."
+        "Account created successfully! Please complete your profile."
       );
       navigate("/vet-onboarding", {
         state: {
@@ -79,11 +101,12 @@ export default function VetForm() {
             ...signupData,
             id: authData.user.id,
           },
-          userType,
+          userType: "vet", // Explicitly set userType as 'vet'
         },
       });
     } catch (error) {
-      toast.error(error.message);
+      console.error("Signup error:", error);
+      toast.error(error.message || "Failed to create account");
     } finally {
       setIsLoading(false);
     }
@@ -153,9 +176,9 @@ export default function VetForm() {
             <User className={iconStyle} />
             <input
               type="text"
-              name="name"
+              name="full_name"
               placeholder="Full Name"
-              value={signupData.name}
+              value={signupData.full_name}
               onChange={handleChange}
               className={inputStyle}
               disabled={isLoading}
